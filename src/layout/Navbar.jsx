@@ -5,7 +5,7 @@ import {
   NavbarItem,
   NavbarMenuToggle,
   NavbarMenu,
-} from '@nextui-org/react';
+} from '@heroui/react';
 
 import { Link, NavLink } from 'react-router-dom';
 import { useContext, useState } from 'react';

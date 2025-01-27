@@ -1,4 +1,4 @@
-import { Divider } from '@nextui-org/react';
+import { Divider } from '@heroui/react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { LinkedInLogoIcon } from '@radix-ui/react-icons';

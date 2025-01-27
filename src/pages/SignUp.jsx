@@ -5,7 +5,7 @@ import {
   Input,
   Select,
   SelectItem,
-} from '@nextui-org/react';
+} from '@heroui/react';
 import { ReloadIcon } from '@radix-ui/react-icons';
 import { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';

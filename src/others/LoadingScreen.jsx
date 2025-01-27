@@ -1,5 +1,5 @@
-// import { Spinner } from "@nextui-org/react";
-import { Progress } from "@nextui-org/react";
+// import { Spinner } from "@heroui/react";
+import { Progress } from "@heroui/react";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 

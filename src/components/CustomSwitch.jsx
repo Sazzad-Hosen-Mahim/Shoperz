@@ -1,4 +1,4 @@
-import { VisuallyHidden, useSwitch } from "@nextui-org/react";
+import { useSwitch, VisuallyHidden } from "@heroui/react";
 import { MoonIcon, SunIcon } from "lucide-react";
 
 const ThemeSwitch = (props) => {

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 
-import {  Input } from "@nextui-org/react";
+import {  Input } from "@heroui/react";
 import { SearchIcon } from "lucide-react";
 
 

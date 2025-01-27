@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from './ui/separator';
 
 import { ModeToggle } from './ui/ModeToggle';
-import { Button } from '@nextui-org/react';
+import { Button } from '@heroui/react';
 
 const UserPopover = ({ user, logout }) => {
   const handleLogout = () => {

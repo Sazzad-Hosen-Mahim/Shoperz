@@ -1,5 +1,5 @@
 
-import { Button, Divider, Input } from '@nextui-org/react';
+import { Button, Divider, Input } from '@heroui/react';
 import { useContext, useEffect, useState } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Link, useLocation, useNavigate } from 'react-router-dom';

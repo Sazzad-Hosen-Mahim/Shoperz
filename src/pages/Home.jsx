@@ -1,4 +1,4 @@
-import { Input, Pagination, Select, SelectItem, Spinner } from "@nextui-org/react";
+import { Input, Pagination, Select, SelectItem, Spinner } from "@heroui/react";
 import useFetchQuery from "../hooks/shared/useFetch";
 import { useState } from "react";
 import CommonWrapper from "../components/CommonWrapper";
@@ -21,6 +21,7 @@ const queryParams = {
 if (category) {
   queryParams.category = category;
 }
+
 
 const { data, isSuccess, isLoading } = useFetchQuery('jobs', queryParams);
  const onCategoryChange = (value ) => {
