@@ -77,7 +77,7 @@ setSearchQuery(value)
     </CommonWrapper>
    <CommonWrapper>  
    <Pagination
-   
+    
       page={page}
     onChange={setPage}
       classNames={{

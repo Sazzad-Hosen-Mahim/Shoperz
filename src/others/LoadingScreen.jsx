@@ -9,7 +9,7 @@ const LoaderScreen = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setValue((v) => (v >= 100 ? 100 : v + 5));
-    }, 40);
+    }, 10);
 
     return () => clearInterval(interval);
   }, []);
