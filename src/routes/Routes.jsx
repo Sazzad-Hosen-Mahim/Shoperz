@@ -24,14 +24,6 @@ const routes = createBrowserRouter([
         element: <Home />,
       },
       {
-        path: "/login",
-        element: <SignIn />,
-      },
-      {
-        path: "/signup",
-        element: <SignUp />,
-      },
-      {
         path: "/closet",
         element: <MyCloset />,
       },
@@ -68,6 +60,15 @@ const routes = createBrowserRouter([
         element: <Profile />,
       },
     ],
+  },
+
+  {
+    path: "/login",
+    element: <SignIn />,
+  },
+  {
+    path: "/signup",
+    element: <SignUp />,
   },
 
   {
