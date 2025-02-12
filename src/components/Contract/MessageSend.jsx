@@ -1,11 +1,13 @@
+
+
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { useState } from "react";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import ReuseSubHeader from "../../section/Shared/ReuseSubHeader";
+import { GoArrowUpRight } from "react-icons/go";
 
 export default function MessageSend() {
     const { register, handleSubmit, reset } = useForm();
@@ -25,20 +27,18 @@ export default function MessageSend() {
     };
 
     return (
-
         <div>
             {/* Contract */}
             <ReuseSubHeader title="Contract Us" subtitle="Home /Contract Us" />
-            <div className="flex items-center justify-center min-h-screen  ">
-
-                <Card className="w-[1006px] h-[831px]  p-8">
+            <div className="flex items-center justify-center min-h-screen py-6 px-4 md:px-6 lg:px-8">
+                <Card className="w-full max-w-4xl p-8">
                     <CardContent>
                         <h2 className="text-4xl font-semibold mb-6 text-center leading-tight tracking-tight">Send Your Message</h2>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <h3>First Name</h3>
+                                    <h3 className="font-geist font-medium text-lg leading-[29.52px] tracking-normal">First Name*</h3>
                                     <Input
                                         {...register("firstName", { required: true })}
                                         placeholder="First Name"
@@ -47,7 +47,8 @@ export default function MessageSend() {
                                 </div>
 
                                 <div>
-                                    <h3>Last Name</h3>
+                                    <h3 className="font-geist font-medium text-lg leading-[29.52px] tracking-normal">Last Name*</h3>
+
                                     <Input
                                         {...register("lastName", { required: true })}
                                         placeholder="Last Name"
@@ -56,9 +57,9 @@ export default function MessageSend() {
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                                 <div>
-                                    <h3>Last Name</h3>
+                                    <h3 className="font-geist font-medium text-lg leading-[29.52px] tracking-normal">Email Address*</h3>
                                     <Input
                                         {...register("email", { required: true })}
                                         type="email"
@@ -68,7 +69,7 @@ export default function MessageSend() {
                                 </div>
 
                                 <div>
-                                    <h3>Last Name</h3>
+                                    <h3 className="font-geist font-medium text-lg leading-[29.52px] tracking-normal">Phone Number*</h3>
 
                                     <Input
                                         {...register("phone", { required: true })}
@@ -79,9 +80,8 @@ export default function MessageSend() {
                                 </div>
                             </div>
 
-
                             <div>
-                                <h3>Your Message</h3>
+                                <h3 className="font-geist font-medium text-lg leading-[29.52px] tracking-normal">Your Message*</h3>
                                 <Textarea
                                     {...register("message", { required: true })}
                                     placeholder="Your Message"
@@ -90,21 +90,19 @@ export default function MessageSend() {
                                 />
                             </div>
 
-                            <Button
-                                type="submit"
-                                disabled={isSubmitting}
-                                className="w-full p-4 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none"
-                            >
-                                {isSubmitting ? "Sending..." : "Send Message"}
-                            </Button>
+                            <div className="text-center mt-8 flex justify-start">
+                                <button className="bg-black px-[48px] py-[14px] text-[16px] text-white font-semibold rounded-[36px]">
+                                    Send Message
+                                </button>
+                                <button className="bg-black p-[20px] text-white rounded-full">
+                                    <GoArrowUpRight />
+                                </button>
+                            </div>
                         </form>
                     </CardContent>
                 </Card>
-
             </div>
         </div>
-
-
     );
 }
 
