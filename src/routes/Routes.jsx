@@ -12,7 +12,6 @@ import Selling from "../pages/Selling";
 import ShoppingCart from "../pages/ShoppingCart";
 import Checkout from "../pages/Checkout";
 import Profile from "../pages/Profile";
-import About from "../pages/About";
 import ProductDetails from "../pages/ProductDetails";
 
 const routes = createBrowserRouter([
