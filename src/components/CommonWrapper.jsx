@@ -2,7 +2,7 @@
 
 const CommonWrapper = ({ children, className }) => {
   return (
-    <div className={`max-w-[1400px] py-4 mx-auto my-auto ${className}`}>
+    <div className={`max-w-[1520px] py-4 mx-auto my-auto ${className}`}>
       {children}
     </div>
   );
