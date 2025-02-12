@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-const {heroui} = require("@heroui/react");
+const { heroui } = require("@heroui/react");
 
 module.exports = {
   darkMode: ["class"],
@@ -19,6 +19,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        sans: ["Geist", "sans-serif"], // Set Geist as default
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
