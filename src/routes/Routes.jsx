@@ -36,7 +36,7 @@ const routes = createBrowserRouter([
         path: "/shop",
         element: <Shop />,
       },
-    
+
       {
         path: "/contact",
         element: <Contact />,
