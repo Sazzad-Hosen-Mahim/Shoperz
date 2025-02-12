@@ -9,11 +9,14 @@ import NewsletterSection from "../components/closetProducts/NewsletterSection";
 const MyCloset = () => {
   return (
     <div>
-      <div className="bg-white">
-        {/* <div>
-        <h1>My Closet</h1>
-      </div> */}
-        <ClosetWrapper className={"pl-6"}>
+      <div className="bg-white mt-6">
+        <div className="text-center">
+          <h1 className="text-[72px] font-bold">My Closet</h1>
+          <p className="text-[#7F7F7F]">
+            Your favorite picks, all in one place
+          </p>
+        </div>
+        <ClosetWrapper className={"pl-6 mt-14"}>
           <div className="">
             <ClosetProducts
               productName="Stylish Jacket"
