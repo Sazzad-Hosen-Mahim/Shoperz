@@ -1,7 +1,6 @@
 import {
   Navbar,
   NavbarContent,
-  Button,
   NavbarItem,
   NavbarMenuToggle,
   NavbarMenu,
@@ -19,7 +18,6 @@ import { IoCartOutline } from "react-icons/io5";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const { user, logout } = useContext(AuthContext);
 
   return (
@@ -43,7 +41,6 @@ export default function Header() {
           "data-[active=true]:after:right-0",
           "data-[active=true]:after:h-[2px]",
           "data-[active=true]:after:rounded-[2px]",
-          // 'data-[active=true]:after:bg-[#428ee6]',
           "data-[active=true]:text-danger",
           "data-[active=false]:hover:text-danger",
         ],
@@ -66,6 +63,7 @@ export default function Header() {
             </motion.div>
           </motion.div>
         </div>
+
         <NavbarMenu className="bg-transparent lg:w-[1520px] mx-auto pt-10 lg:!h-[1183px]">
           <NavLink to="/">
             {({ isActive }) => (
@@ -101,6 +99,7 @@ export default function Header() {
               </NavbarItem>
             )}
           </NavLink>
+
           <NavLink to="/contact" aria-current="page">
             {({ isActive }) => (
               <NavbarItem
@@ -112,6 +111,7 @@ export default function Header() {
               </NavbarItem>
             )}
           </NavLink>
+
           <NavLink to="/contact" aria-current="page">
             {({ isActive }) => (
               <NavbarItem
@@ -123,6 +123,7 @@ export default function Header() {
               </NavbarItem>
             )}
           </NavLink>
+
           <NavLink to="/contact" aria-current="page">
             {({ isActive }) => (
               <NavbarItem
@@ -136,9 +137,6 @@ export default function Header() {
           </NavLink>
         </NavbarMenu>
       </NavbarContent>
-      {/* <NavbarContent className="">
-        
-      </NavbarContent> */}
 
       <NavbarContent justify="end">
         {user ? (
@@ -201,7 +199,6 @@ const childVariant = {
   visible: {
     y: 0,
     opacity: 1,
-
     transition: {
       duration: 1,
     },
