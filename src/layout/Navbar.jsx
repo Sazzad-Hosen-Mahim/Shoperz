@@ -68,7 +68,7 @@ export default function Header() {
           </NavLink>
         </motion.div>
       </NavbarContent>
-     
+
 
       <NavbarContent as="div" className="items-center" justify="end">
         <div className="hidden md:flex gap-8">
@@ -92,7 +92,7 @@ export default function Header() {
               </NavLink>
             </motion.div>
 
-         
+
             <motion.div variants={childVariant}>
               <NavLink to="/contact" aria-current="page">
                 {({ isActive }) => (
@@ -101,6 +101,18 @@ export default function Header() {
                     isActive={isActive}
                   >
                     Contact
+                  </NavbarItem>
+                )}
+              </NavLink>
+            </motion.div>
+            <motion.div variants={childVariant}>
+              <NavLink to="/about" aria-current="page">
+                {({ isActive }) => (
+                  <NavbarItem
+                    className="hover:text-danger link-underline"
+                    isActive={isActive}
+                  >
+                    About
                   </NavbarItem>
                 )}
               </NavLink>
@@ -137,7 +149,7 @@ export default function Header() {
             {user && user.role === 'admin' ? 'Dashboard' : 'Profile'}
           </Button>
         )}
-       
+
         <div className=" hidden md:block">{/* <ModeToggle /> */}</div>
       </NavbarContent>
       <NavbarMenu>
@@ -175,10 +187,21 @@ export default function Header() {
             </NavbarItem>
           )}
         </NavLink>
+        <NavLink to="/about" aria-current="page">
+          {({ isActive }) => (
+            <NavbarItem
+              onClick={() => setIsMenuOpen(false)}
+              className="hover:text-danger h-fit mb-4"
+              isActive={isActive}
+            >
+              About
+            </NavbarItem>
+          )}
+        </NavLink>
       </NavbarMenu>
 
       <NavbarContent justify="end" className="flex gap-12">
-      {user ? (
+        {user ? (
           <UserPopover user={user} logout={logout} />
         ) : (
           <div>
