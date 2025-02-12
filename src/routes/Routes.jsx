@@ -36,7 +36,11 @@ const routes = createBrowserRouter([
         path: "/shop",
         element: <Shop />,
       },
+<<<<<<< HEAD
 
+=======
+    
+>>>>>>> 162e88377d8dab038eb286b4a5a290b6a8ebe709
       {
         path: "/contact",
         element: <Contact />,
