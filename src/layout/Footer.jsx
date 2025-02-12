@@ -64,7 +64,7 @@ const Footer = () => {
           </div>
         </div>
         <Divider className="bg-[#444343]" />
-        <div className="w-full py-2">
+        <div className="w-full pt-3">
           <p className="text-sm text-white  text-center">
             2023 <span className=" hover:text-danger"> Pewds. </span> All right
             reserved.
