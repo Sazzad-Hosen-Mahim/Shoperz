@@ -64,7 +64,7 @@ export default function Header() {
           </motion.div>
         </div>
 
-        <NavbarMenu className="bg-transparent lg:w-[1520px] mx-auto pt-10 lg:!h-[1183px]">
+        <NavbarMenu className="bg-gradient-to-r from-[#F1FBFF] via-[#F1EDEB] to-[#F8DAB0] h-[1123px] lg:w-[1560px] mx-auto pt-10 ">
           <NavLink to="/">
             {({ isActive }) => (
               <NavbarItem

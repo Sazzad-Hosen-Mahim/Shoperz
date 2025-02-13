@@ -3,10 +3,11 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CommonWrapper from "../CommonWrapper";
 import CollectionCard from "./CollectionCard";
 import { collectionProducts } from "../../lib/data";
+import gridImage from "../../assets/collection/twogrid/1.png";
 
 const Collection = () => {
   return (
-    <div className="mt-[140px]">
+    <div className="mt-[140px] bg-white">
       <CommonWrapper>
         <div>
           <RadioGroup
@@ -55,6 +56,20 @@ const Collection = () => {
           {collectionProducts.map((card, i) => (
             <CollectionCard card={card} key={i} />
           ))}
+        </div>
+        <div className="mt-[140px] flex">
+          <div
+            className="h-[719px] w-full  flex items-center justify-center"
+            style={{
+              background:
+                "linear-gradient(459deg, rgba(255, 255, 255, 1) -18.59%, rgba(235, 235, 235, 1) 100%)",
+            }}
+          >
+            <img src={gridImage} alt="" className="w-[406px] h-[404px]" />
+          </div>
+          <div className="h-[719px] w-full  bg-[#F8DAB0] flex items-center justify-center">
+            <div className="bg-white w-[514px] h-[463px] rounded-3xl"></div>
+          </div>
         </div>
       </CommonWrapper>
     </div>
