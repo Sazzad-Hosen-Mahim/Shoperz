@@ -6,7 +6,7 @@ import {
   NavbarMenu,
 } from "@heroui/react";
 
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../hooks/AuthContextProvider";
 import { motion } from "framer-motion";
@@ -167,19 +167,19 @@ export default function Header() {
   );
 }
 
-const logoVariant = {
-  hidden: {
-    y: -100,
-  },
-  visible: {
-    y: 0,
-    transition: {
-      duration: 1,
-      type: "spring",
-      stiffness: 80,
-    },
-  },
-};
+// const logoVariant = {
+//   hidden: {
+//     y: -100,
+//   },
+//   visible: {
+//     y: 0,
+//     transition: {
+//       duration: 1,
+//       type: "spring",
+//       stiffness: 80,
+//     },
+//   },
+// };
 const menuVariant = {
   hidden: {
     opacity: 0,
