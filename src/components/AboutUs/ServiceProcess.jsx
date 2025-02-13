@@ -8,10 +8,10 @@ const ServiceProcess = () => {
         <div>
             <div className="">
                 {/* About Us Section */}
-                <ReuseSubHeader title="About Us" subtitle="Home / About Us" />
+                <ReuseSubHeader title="About" subtitle="Home / About " />
 
             </div>
-            <div className="w-full flex flex-wrap justify-center gap-5 mt-20 px-4 md:px-10 lg:px-20">
+            <div className="w-[1,212px] flex flex-wrap justify-center gap-5 mt-20 px-4 md:px-10 lg:px-20">
                 {/* Card 1 */}
                 <motion.div
                     className="w-[288px] h-[271px] bg-primary flex flex-col items-center justify-center rounded-lg shadow-lg p-6 text-center"

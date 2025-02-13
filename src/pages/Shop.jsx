@@ -54,7 +54,7 @@ const Shop = () => {
       <div className="flex mt-20 " id="headingSort">
         {/* Sidebar */}
         <div className=" w-[349px] h-[1399px] p-[24px] ml-60">
-           <FilterSection/>
+          <FilterSection />
         </div>
 
         {/* Main Content Section */}
@@ -108,9 +108,8 @@ const Shop = () => {
             <button
               onClick={prevPage}
               disabled={currentPage === 1}
-              className={`w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 ${
-                currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"
-              }`}
+              className={`w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 ${currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"
+                }`}
             >
               <ArrowLeft size={18} />
             </button>
@@ -120,9 +119,8 @@ const Shop = () => {
                 key={i + 1}
                 onClick={() => setCurrentPage(i + 1)}
                 className={`w-10 h-10 flex items-center justify-center border-none
-                   ${
-                  currentPage === i + 1 ? " text-black font-bold" : "border border-gray-300"
-                }`}
+                   ${currentPage === i + 1 ? " text-black font-bold" : "border border-gray-300"
+                  }`}
               >
                 {i + 1}
               </button>
@@ -131,9 +129,8 @@ const Shop = () => {
             <button
               onClick={nextPage}
               disabled={currentPage === totalPages}
-              className={`w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 ${
-                currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"
-              }`}
+              className={`w-10 h-10 flex items-center justify-center rounded-full border border-gray-300 ${currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"
+                }`}
             >
               <ArrowRight size={18} />
             </button>
