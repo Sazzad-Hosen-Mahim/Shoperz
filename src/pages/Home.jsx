@@ -4,7 +4,7 @@ import Header from "../components/Header/Header";
 
 const Home = () => {
   return (
-    <div className="w-full absolute top-0">
+    <div className="w-full">
       <Header />
       <Dummy />
       <DummyTwo />

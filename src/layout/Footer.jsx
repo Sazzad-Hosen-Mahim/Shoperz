@@ -9,7 +9,7 @@ import CommonWrapper from "../components/CommonWrapper";
 
 const Footer = () => {
   return (
-    <footer className="bg-[#191919]">
+    <footer className="bg-[#191919] absolute  w-full">
       <CommonWrapper>
         <div className="flex justify-between text-white py-5">
           <div>
@@ -63,7 +63,6 @@ const Footer = () => {
               </div>
             </div>
           </div>
-
         </div>
         <Divider className="bg-[#444343]" />
         <div className="w-full pt-3">
@@ -72,13 +71,9 @@ const Footer = () => {
             reserved.
           </p>
         </div>
-
       </CommonWrapper>
-
     </footer>
   );
 };
 
 export default Footer;
-
-
