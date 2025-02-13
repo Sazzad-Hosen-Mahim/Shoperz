@@ -28,8 +28,8 @@ export default function MessageSend() {
 
     return (
         <div>
-            {/* Contract */}
-            <ReuseSubHeader title="Contract Us" subtitle="Home /Contract Us" />
+            {/* Contact */}
+            <ReuseSubHeader title="Contact" subtitle="Home /Contact " />
             <div className="flex items-center justify-center min-h-screen py-6 px-4 md:px-6 lg:px-8">
                 <Card className="w-full max-w-4xl p-8">
                     <CardContent>
@@ -90,6 +90,7 @@ export default function MessageSend() {
                                 />
                             </div>
 
+                            {/* burron */}
                             <div className="text-center mt-8 flex justify-start">
                                 <button className="bg-black px-[48px] py-[14px] text-[16px] text-white font-semibold rounded-[36px]">
                                     Send Message

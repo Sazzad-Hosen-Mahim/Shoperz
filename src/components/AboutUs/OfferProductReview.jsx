@@ -12,7 +12,7 @@ export default function OfferProductReview() {
     };
 
     return (
-        <div className="p-8 space-y-12">
+        <div className="p-8 mt-32 w-[1880px] ml-96">
             {/* Testimonials Section */}
             <div className="space-y-6">
                 <h2 className="text-2xl font-bold">Hear from Our Satisfied Clients</h2>
