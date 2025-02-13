@@ -1,80 +1,84 @@
 import { Divider } from "@heroui/react";
-import { motion } from "framer-motion";
-import { Link } from "react-router-dom";
-import { LinkedInLogoIcon } from "@radix-ui/react-icons";
-import { Icons } from "@/assets/icons/Icons";
+
+import {
+  InstagramLogoIcon,
+  LinkedInLogoIcon,
+  TwitterLogoIcon,
+} from "@radix-ui/react-icons";
+import CommonWrapper from "../components/CommonWrapper";
 
 const Footer = () => {
   return (
-    <footer className="  max-w-7xl w-[93%] mx-auto">
-      <div className="  py-10 gap-10 lg:gap-0   flex justify-between">
-        <div className="md:flex-row flex-col flex gap-10 items-center">
-          <Link
-            to={"/"}
-            className="flex items-center  justify-center text-base font-semibold"
-          >
-            Healthify
-          </Link>
+    <footer className="bg-[#191919]">
+      <CommonWrapper>
+        <div className="flex justify-between text-white py-5">
+          <div>
+            <img
+              src="/src/assets/logo/logo-gray.png"
+              alt="Logo"
+              width={204}
+              height={127}
+            />
+            <div className="mt-2">
+              <div className="flex gap-2 justify-center">
+                <div className="bg-black p-1 rounded-lg">
+                  <InstagramLogoIcon className="h-6 w-6 text-white" />
+                </div>
+                <div className="bg-black p-1 rounded-lg">
+                  <TwitterLogoIcon className="h-6 w-6" />
+                </div>
+                <div className="bg-black p-1 rounded-lg">
+                  <LinkedInLogoIcon className="h-6 w-6" />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="flex gap-12 text-white">
+            <div>
+              <p className="font-semibold text-xl mb-2">Shipping with us</p>
+              <p className="text-base">Making payments</p>
+              <p className="text-base">Delivery options</p>
+            </div>
+            <div>
+              <p className="font-semibold text-xl mb-2">Pay with</p>
+              <div className="flex gap-3">
+                <img
+                  src="/src/assets/images/visa.png"
+                  alt="Visa Card"
+                  width={36}
+                  height={24}
+                />
+                <img
+                  src="/src/assets/images/master.png"
+                  alt="Master Card"
+                  width={36}
+                  height={24}
+                />
+                <img
+                  src="/src/assets/images/paypal.png"
+                  alt="Paypal"
+                  width={36}
+                  height={24}
+                />
+              </div>
+            </div>
+          </div>
+
         </div>
-        <div className="flex gap-8 justify-center">
-          <Icons.facebookIcon className=" h-6 w-6" />
-          <Icons.youtubeIcon className=" h-6 w-6" />
-
-          <LinkedInLogoIcon className=" h-6 w-6" />
+        <Divider className="bg-[#444343]" />
+        <div className="w-full pt-3">
+          <p className="text-sm text-white  text-center">
+            2023 <span className=" hover:text-danger"> Pewds. </span> All right
+            reserved.
+          </p>
         </div>
-      </div>
 
-      <Divider className="mb-8 bg-divider" />
+      </CommonWrapper>
 
-      <div className="pb-8 flex flex-col md:flex-row  gap-4 justify-between items-center ">
-        <p className="text-tiny  text-light-50  text-center">
-          2023 <span className=" hover:text-danger"> Pewds. </span> All right
-          reserved.
-        </p>
-        <ul className=" list-none flex justify-center flex-wrap items-center   gap-4">
-          {[
-            { name: "Privacy Policy", path: "privacy-policy" },
-
-            { name: "Terms of Service", path: "tos" },
-            { name: "Cookies Settings", path: "cookies-settings" },
-          ].map((el, index) => {
-            return (
-              <Link key={index} to={`/${el?.path}`}>
-                <motion.li
-                  variants={hoverVariants}
-                  initial="hidden"
-                  animate="visible"
-                  whileHover="hover"
-                  className=" cursor-pointer text-light-50  text-tiny  underline underline-offset-1"
-                >
-                  {el.name}
-                </motion.li>
-              </Link>
-            );
-          })}
-        </ul>
-      </div>
     </footer>
   );
 };
 
 export default Footer;
-const hoverVariants = {
-  hidden: {
-    opacity: 0,
-    x: 0,
-  },
-  visible: {
-    opacity: 1,
 
-    transition: {
-      type: "spring",
-      stiffness: 300,
-    },
-  },
-  hover: {
-    scale: [1, 1.06, 1, 1.06, 1],
-    originX: 0,
-    color: "#428ee6",
-  },
-};
+
