@@ -66,7 +66,7 @@ const Header = () => {
 
   return (
     <div className="bg-gradient-to-r from-[#F1FBFF] via-[#F1EDEB] to-[#F8DAB0] h-[1123px] overflow-hidden relative">
-      <div className="lg:w-[868px] mt-[202px] mx-auto text-center">
+      <div className="lg:w-[868px] mt-[102px] mx-auto text-center">
         <h1 className="font-bold text-[72px]">
           Discover Iconic Styles at <br /> Unbeatable Value
         </h1>
