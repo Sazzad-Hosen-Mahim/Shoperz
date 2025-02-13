@@ -27,7 +27,7 @@ export default function MessageSend() {
     };
 
     return (
-        <div>
+        <div className="bg-">
             {/* Contact */}
             <ReuseSubHeader title="Contact" subtitle="Home /Contact " />
             <div className="flex items-center justify-center min-h-screen py-6 px-4 md:px-6 lg:px-8">

@@ -1,24 +1,47 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form"; // Import useForm here
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 import { Card } from "@/components/ui/card";
 import axios from "axios";
 import ReuseSubHeader from "../../section/Shared/ReuseSubHeader";
-
+import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 
 const SellingMade = () => {
+    const { register, handleSubmit, reset } = useForm(); // Using useForm for form handling
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-
-
+    const onSubmit = async (data) => {
+        setIsSubmitting(true);
+        try {
+            await axios.post("YOUR_API_ENDPOINT_HERE", data);
+            alert("Profile updated successfully!");
+            reset();
+        } catch (error) {
+            alert("Failed to update profile");
+        } finally {
+            setIsSubmitting(false);
+        }
+    };
 
     const [formData, setFormData] = useState({
         designer: "",
         category: "",
         productName: "",
         details: "",
-        images: {},
+        images: {
+            front: null,
+            back: null,
+            inside: null,
+            base: null,
+            condition: null,
+            details: null,
+            retailTag: null,
+            sellerId: null,
+        },
     });
+
+    const [activeCard, setActiveCard] = useState(null); // To track which card is active for uploading
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -31,33 +54,24 @@ const SellingMade = () => {
                 ...prev,
                 images: { ...prev.images, [type]: e.target.files[0] },
             }));
+            setActiveCard(null); // Close the file input after selecting a file
         }
     };
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        const data = new FormData();
-        Object.keys(formData).forEach((key) => {
-            if (key === "images") {
-                Object.keys(formData.images).forEach((imgKey) => {
-                    data.append(imgKey, formData.images[imgKey]);
-                });
-            } else {
-                data.append(key, formData[key]);
-            }
-        });
-
-        try {
-            await axios.post("https://your-api-endpoint.com/upload", data, {
-                headers: { "Content-Type": "multipart/form-data" },
-            });
-            alert("Item submitted successfully!");
-        } catch (error) {
-            console.error("Error submitting form", error);
-            alert("There was an error submitting your item.");
-        }
+    const handleCardClick = (type) => {
+        setActiveCard(type); // Open file input for the clicked card
     };
+
+    const photoLabels = [
+        "Front",
+        "Back",
+        "Inside",
+        "Base",
+        "Condition",
+        "Details",
+        "Retail Tag Or Sticker",
+        "Seller Id Or Designer Id",
+    ];
 
     return (
         <div className="">
@@ -75,55 +89,48 @@ const SellingMade = () => {
 
             <div className="w-full max-w-7xl mx-auto p-6 bg-gradient-to-r from-gray-100 to-orange-100 rounded-lg shadow-lg mt-8">
                 <h1 className="text-2xl font-bold text-center mb-4">What Are You Selling?</h1>
-                <form onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
-                        <div className="sm:col-span-1 lg:col-span-1">
-                            <h3 className="font-medium text-lg">Designer</h3>
-                            <Select className="h-16 p-4 "
-                                value={formData.designer}
-                                onValueChange={(value) => setFormData((prev) => ({ ...prev, designer: value }))}
-                            >
-                                <SelectTrigger className="p-4 pt-8 pb-8 rounded-[24px] border-[1px]">
-                                    <span>{formData.designer || "Select designer"}</span>
-                                </SelectTrigger>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 ">
+
+                        {/* State/Country */}
+                        <div className="flex flex-col w-full sm:w-[493px] p-4">
+                            <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Design</h2>
+                            <Select {...register("country", { required: true })} className="w-full h-16 p-4">
+                                <SelectTrigger className="p-4 pt-8 pb-8 rounded-[24px] border-[1px]">Select A design Name</SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="Designer A">Designer A</SelectItem>
-                                    <SelectItem value="Designer B">Designer B</SelectItem>
-                                    <SelectItem value="Designer C">Designer C</SelectItem>
-                                </SelectContent>
-                            </Select>
-                        </div>
-                        <div className="sm:col-span-1 lg:col-span-1 ml-24">
-                            <h3 className="font-medium text-lg">Category</h3>
-                            <Select
-                                value={formData.category}
-                                onValueChange={(value) => setFormData((prev) => ({ ...prev, category: value }))}
-                            >
-                                <SelectTrigger className="p-4 pt-8 pb-8 rounded-[24px] border-[1px]">
-                                    <span>{formData.category || "Select category"}</span>
-                                </SelectTrigger>
-                                <SelectContent>
-                                    <SelectItem value="Electronics">Electronics</SelectItem>
-                                    <SelectItem value="Furniture">Furniture</SelectItem>
-                                    <SelectItem value="Clothing">Clothing</SelectItem>
+                                    <SelectItem value="USA">Graphic</SelectItem>
+                                    <SelectItem value="Canada">Autocad</SelectItem>
+                                    <SelectItem value="UK">Photoshop</SelectItem>
                                 </SelectContent>
                             </Select>
                         </div>
 
+                        {/* category */}
 
-
-
-
-
-                        <div className="col-span-1 sm:col-span-2 lg:col-span-3 w-[1006px]">
-                            <h3 className="font-medium text-lg">Item/Product Name</h3>
-                            <Input
-                                name="productName"
-                                /* {...register("product", { required: true })}  */ type='product'
-                                placeholder="Enter product name"
-                                className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                            />
+                        <div className="ml-20 flex flex-col w-full sm:w-[493px] p-4">
+                            <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Category</h2>
+                            <Select {...register("country", { required: true })} className="w-full h-16 p-4">
+                                <SelectTrigger className='p-4 pt-8 pb-8 rounded-[24px] border-[1px]'>
+                                    Select A design Name
+                                </SelectTrigger>
+                                <SelectContent>
+                                    <SelectItem value="USA">Web Design</SelectItem>
+                                    <SelectItem value="Canada">UI/UX Design</SelectItem>
+                                    <SelectItem value="UK">3D Modeling</SelectItem>
+                                </SelectContent>
+                            </Select>
                         </div>
+                    </div>
+
+                    {/* add Product Name */}
+                    <div className="flex flex-col w-full sm:w-[1006px] p-4">
+                        <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Item/Product Name</h2>
+                        <Input
+                            className="w-full h-[64px] rounded-[24px] border-[1px] p-[20px]"
+                            {...register("address", { required: true })}
+                            type="text"
+                            placeholder="Enter Your product Name"
+                        />
                     </div>
 
                     <div className="text-center mt-16">
@@ -160,21 +167,38 @@ const SellingMade = () => {
                     <div>
                         <h1 className="mt-5">Upload Photo Of Your Item</h1>
                         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 mt-8">
-                            {["", "Front", "Back", "Inside", "Base", "Condition", "Details", "Retail Tag Or Sticker", "Seller Id Or Designer Id"].map((label, index) => (
-                                <Card key={label} className="p-4 text-center cursor-pointer h-[186px] w-full sm:w-[186px]">
-                                    {index === 0 ? (
+                            {photoLabels.map((label, index) => (
+                                <Card
+                                    key={label}
+                                    onClick={() => handleCardClick(label.toLowerCase())} // Set the clicked card as active
+                                    className="p-4 text-center cursor-pointer h-[186px] w-full sm:w-[186px]">
+                                    {formData.images[label.toLowerCase()] ? (  // Check if image is already uploaded
                                         <div className="flex flex-col justify-center items-center h-full">
-                                            <i className="fas fa-camera text-gray-700 text-4xl"></i> {/* Camera icon */}
-                                            <span className="text-sm text-gray-600 mt-2">Add Photo</span>
-                                            <input
-                                                type="file"
-                                                onChange={(e) => handleFileChange(e, label.toLowerCase())}
-                                                className="mt-2 opacity-0 cursor-pointer w-full h-full absolute inset-0" // Make the input invisible but still functional
+                                            <img
+                                                src={URL.createObjectURL(formData.images[label.toLowerCase()])}
+                                                alt={label}
+                                                className="h-full object-cover w-full"
                                             />
+                                            <span className="text-sm font-medium text-gray-700">{label}</span>
                                         </div>
                                     ) : (
                                         <div className="flex flex-col justify-center items-center h-full">
-                                            <span className="text-sm font-medium text-gray-700">{label}</span>
+                                            {activeCard === label.toLowerCase() ? (
+                                                <>
+                                                    <i className="fas fa-camera text-gray-700 text-4xl"></i>
+                                                    <span className="text-sm text-gray-600 mt-2">Click to add a photo</span>
+                                                    <input
+                                                        type="file"
+                                                        onChange={(e) => handleFileChange(e, label.toLowerCase())}
+                                                        className="mt-2 opacity-0 cursor-pointer w-full h-full absolute inset-0"
+                                                    />
+                                                </>
+                                            ) : (
+                                                <>
+                                                    <i className="fas fa-camera text-gray-700 text-4xl"></i>
+                                                    <span className="text-sm text-gray-600 mt-2">{label}</span>
+                                                </>
+                                            )}
                                         </div>
                                     )}
                                 </Card>
