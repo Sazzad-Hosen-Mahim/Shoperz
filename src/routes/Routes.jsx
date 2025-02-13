@@ -13,6 +13,7 @@ import ShoppingCart from "../pages/ShoppingCart";
 import Checkout from "../pages/Checkout";
 import Profile from "../pages/Profile";
 import ProductDetails from "../pages/ProductDetails";
+import About from "../pages/About";
 
 const routes = createBrowserRouter([
   {
@@ -48,6 +49,10 @@ const routes = createBrowserRouter([
       {
         path: "/product-details",
         element: <ProductDetails />,
+      },
+      {
+        path: "/about",
+        element: <About />,
       },
       {
         path: "/shopping-cart",
