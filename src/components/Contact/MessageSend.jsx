@@ -36,47 +36,33 @@ export default function MessageSend() {
                         <h2 className="text-4xl font-semibold mb-6 text-center leading-tight tracking-tight">Send Your Message</h2>
 
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <h3 className="font-geist font-medium text-lg leading-[29.52px] tracking-normal">First Name*</h3>
-                                    <Input
-                                        {...register("firstName", { required: true })}
-                                        placeholder="First Name"
-                                        className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
+                            <div className="flex flex-wrap">
+                                {/* First Name */}
+                                <div className="flex flex-col w-1/2 p-4">
+                                    <h2 className="mb-2 ml-2 font-geist font-medium text-lg">First Name</h2>
+                                    <Input className="w-full h-[64px] rounded-[24px] border-[1px] p-[20px]"
+                                        {...register("firstName", { required: true })} placeholder="First Name" />
                                 </div>
 
-                                <div>
-                                    <h3 className="font-geist font-medium text-lg leading-[29.52px] tracking-normal">Last Name*</h3>
-
-                                    <Input
-                                        {...register("lastName", { required: true })}
-                                        placeholder="Last Name"
-                                        className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <h3 className="font-geist font-medium text-lg leading-[29.52px] tracking-normal">Email Address*</h3>
-                                    <Input
-                                        {...register("email", { required: true })}
-                                        type="email"
-                                        placeholder="Email Address"
-                                        className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
+                                {/* Last Name */}
+                                <div className="flex flex-col w-1/2 p-4">
+                                    <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Last Name</h2>
+                                    <Input className="w-full h-[64px] rounded-[24px] border-[1px] p-[20px]"
+                                        {...register("lastName", { required: true })} placeholder="Last Name" />
                                 </div>
 
-                                <div>
-                                    <h3 className="font-geist font-medium text-lg leading-[29.52px] tracking-normal">Phone Number*</h3>
+                                {/* Email Address */}
+                                <div className="flex flex-col w-1/2 p-4">
+                                    <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Email Address</h2>
+                                    <Input className="w-full h-[64px] rounded-[24px] border-[1px] p-[20px]"
+                                        {...register("email", { required: true })} type="email" placeholder="abc@gmail.com" />
+                                </div>
 
-                                    <Input
-                                        {...register("phone", { required: true })}
-                                        type="tel"
-                                        placeholder="Phone Number"
-                                        className="w-full p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                                    />
+                                {/* Phone Number */}
+                                <div className="flex flex-col w-1/2 p-4">
+                                    <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Phone Number</h2>
+                                    <Input className="w-full h-[64px] rounded-[24px] border-[1px] p-[20px]"
+                                        {...register("phone", { required: true })} type="tel" placeholder="1234567" />
                                 </div>
                             </div>
 
