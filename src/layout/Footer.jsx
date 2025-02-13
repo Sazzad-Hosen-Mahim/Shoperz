@@ -1,8 +1,8 @@
-import { Divider } from '@heroui/react';
-import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
-import { LinkedInLogoIcon } from '@radix-ui/react-icons';
-import { Icons } from '@/assets/icons/Icons';
+import { Divider } from "@heroui/react";
+import { motion } from "framer-motion";
+import { Link } from "react-router-dom";
+import { LinkedInLogoIcon } from "@radix-ui/react-icons";
+import { Icons } from "@/assets/icons/Icons";
 
 const Footer = () => {
   return (
@@ -10,7 +10,7 @@ const Footer = () => {
       <div className="  py-10 gap-10 lg:gap-0   flex justify-between">
         <div className="md:flex-row flex-col flex gap-10 items-center">
           <Link
-            to={'/'}
+            to={"/"}
             className="flex items-center  justify-center text-base font-semibold"
           >
             Healthify
@@ -33,10 +33,10 @@ const Footer = () => {
         </p>
         <ul className=" list-none flex justify-center flex-wrap items-center   gap-4">
           {[
-            { name: 'Privacy Policy', path: 'privacy-policy' },
+            { name: "Privacy Policy", path: "privacy-policy" },
 
-            { name: 'Terms of Service', path: 'tos' },
-            { name: 'Cookies Settings', path: 'cookies-settings' },
+            { name: "Terms of Service", path: "tos" },
+            { name: "Cookies Settings", path: "cookies-settings" },
           ].map((el, index) => {
             return (
               <Link key={index} to={`/${el?.path}`}>
@@ -68,13 +68,13 @@ const hoverVariants = {
     opacity: 1,
 
     transition: {
-      type: 'spring',
+      type: "spring",
       stiffness: 300,
     },
   },
   hover: {
     scale: [1, 1.06, 1, 1.06, 1],
     originX: 0,
-    color: '#428ee6',
+    color: "#428ee6",
   },
 };
