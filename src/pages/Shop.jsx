@@ -3,6 +3,7 @@ import NewsletterSection from "../components/closetProducts/NewsletterSection";
 import { ChevronDown, ArrowLeft, ArrowRight } from "lucide-react";
 import { useState } from "react";
 import ArrivalProducts from "../components/ArrivalProducts/ArrivalProducts";
+import FilterSection from "../components/side-bar/FilterSection";
 
 const Shop = () => {
   const [selected, setSelected] = useState("All");
@@ -37,7 +38,7 @@ const Shop = () => {
   };
 
   return (
-    <div className="w-[1920px]">
+    <div className="w-[1920px] bg-white">
       {/* Header Section */}
       <div className="bg-gradient-to-r from-[#F1FBFF] via-[#F1EDEB] to-[#F8DAB0] h-[437px] flex flex-col items-center justify-center">
         <h1 className="text-[72px] font-bold">Shop</h1>
@@ -50,10 +51,10 @@ const Shop = () => {
       </div>
 
       {/* Sidebar and Sorting Section */}
-      <div className="flex mt-20" id="headingSort">
+      <div className="flex mt-20 " id="headingSort">
         {/* Sidebar */}
-        <div className="bg-red-600 w-[349px] h-[1399px] p-[24px] ml-60">
-           side bar
+        <div className=" w-[349px] h-[1399px] p-[24px] ml-60">
+           <FilterSection/>
         </div>
 
         {/* Main Content Section */}
