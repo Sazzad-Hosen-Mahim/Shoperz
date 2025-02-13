@@ -1,4 +1,5 @@
 import { Divider } from "@heroui/react";
+
 import {
   InstagramLogoIcon,
   LinkedInLogoIcon,
@@ -62,6 +63,7 @@ const Footer = () => {
               </div>
             </div>
           </div>
+
         </div>
         <Divider className="bg-[#444343]" />
         <div className="w-full pt-3">
@@ -70,9 +72,13 @@ const Footer = () => {
             reserved.
           </p>
         </div>
+
       </CommonWrapper>
+
     </footer>
   );
 };
 
 export default Footer;
+
+
