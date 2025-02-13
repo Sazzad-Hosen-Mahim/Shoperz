@@ -76,7 +76,7 @@ export default function Header() {
             )}
           </NavLink>
 
-          <NavLink to="/tests" aria-current="page">
+          <NavLink to="/closet" aria-current="page">
             {({ isActive }) => (
               <NavbarItem
                 onClick={() => setIsMenuOpen(false)}
@@ -88,7 +88,7 @@ export default function Header() {
             )}
           </NavLink>
 
-          <NavLink to="/contact" aria-current="page">
+          <NavLink to="/about" aria-current="page">
             {({ isActive }) => (
               <NavbarItem
                 onClick={() => setIsMenuOpen(false)}
@@ -100,7 +100,7 @@ export default function Header() {
             )}
           </NavLink>
 
-          <NavLink to="/contact" aria-current="page">
+          <NavLink to="/new-arrival" aria-current="page">
             {({ isActive }) => (
               <NavbarItem
                 onClick={() => setIsMenuOpen(false)}
@@ -112,7 +112,7 @@ export default function Header() {
             )}
           </NavLink>
 
-          <NavLink to="/contact" aria-current="page">
+          <NavLink to="/shop" aria-current="page">
             {({ isActive }) => (
               <NavbarItem
                 onClick={() => setIsMenuOpen(false)}

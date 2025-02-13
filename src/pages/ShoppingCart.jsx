@@ -1,13 +1,16 @@
+/* eslint-disable no-unused-vars */
 import { BreadcrumbItem, Breadcrumbs } from "@heroui/react";
 import CartWrapper from "../components/shopping-cart/CartWrapper";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Trash2 } from 'lucide-react';
 import bag from "../assets/arrival-image/bag.png"
-import mCard from "../assets/chekout-image/mCard.png";
-import paypal from "../assets/chekout-image/paypal.png";
-import visa from "../assets/chekout-image/visa.png";
+import NewsletterSection from "../components/closetProducts/NewsletterSection";
+import { useNavigate } from "react-router-dom";
+
+
 
 const ShoppingCart = () => {
+  const navigate = useNavigate()
   const [cartItems, setCartItems] = useState([
         {
           id: 1,
@@ -60,7 +63,10 @@ const ShoppingCart = () => {
           [name]: value,
         }));
       };
-      const handleSubmitPayment = () => {}
+      
+      const handleSubmitPayment = () => {
+        navigate("/checkout")
+      }
       const handleDelete = (id) =>{
         setCartItems(cartItems.filter(item => item.id !== id))
       };
@@ -86,30 +92,28 @@ const ShoppingCart = () => {
         </div>
       </div>
       <CartWrapper className={"mt-32 flex justify-center"}>
-        <div className="w-[1472px] bg-[#FFFFFF]">
-        <div className="overflow-x-auto">
-        <table className="min-w-full table-auto">
-          <thead>
-            <tr className="text-left">
-              <th className="py-2 px-4">Image</th>
-              <th className="py-2 px-4">Product Name</th>
-              <th className="py-2 px-4">Color</th>
-              <th className="py-2 px-4">Price</th>
-              <th className="py-2 px-4">Quantity</th>
-              <th className="py-2 px-4">Total</th>
-              <th className="py-2 px-4">Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {cartItems.map((product) => (
-              <tr key={product.id}>
+  <div className="w-[1472px] bg-[#FFFFFF] rounded-lg shadow-md">
+    <div className="overflow-x-auto py-12">
+      <table className="min-w-full table-auto">
+        <thead>
+          <tr className="text-left">
+            <th className="py-2 px-4">Image</th>
+            <th className="py-2 px-4">Product Name</th>
+            <th className="py-2 px-4">Color</th>
+            <th className="py-2 px-4">Price</th>
+            <th className="py-2 px-4">Quantity</th>
+            <th className="py-2 px-4">Total</th>
+            <th className="py-2 px-4">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {cartItems.map((product, index) => (
+            <React.Fragment key={product.id}>
+              <tr>
                 <td className="py-2 px-4">
                   <img src={product.image} alt={product.name} className="w-16 h-16 object-cover" />
                 </td>
-                <div>
                 <td className="py-2 px-4">{product.name}</td>
-                <span className="pl-12 text-[#5A5C5F]">{product.id}</span>
-                </div>
                 <td className="py-2 px-4">{product.color}</td>
                 <td className="py-2 px-4">${product.price.toFixed(2)}</td>
                 <td className="py-2 px-4 flex items-center">
@@ -124,19 +128,25 @@ const ShoppingCart = () => {
                 <td className="py-2 px-4">${(product.price * product.quantity).toFixed(2)}</td>
                 <td className="py-2 px-4">
                   <button onClick={() => handleDelete(product.id)} className="text-[#5A5C5F] pl-4">
-                     <Trash2 /> 
+                    <Trash2 /> 
                   </button>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-        </div>
-        
-      </CartWrapper>
-      <div>
-      <div className="w-[35%] h-[872px] bg-white p-6 rounded-lg shadow-md border-1 border-[#D9D9D9]">
+              <tr>
+                <td colSpan="7">
+                  <hr className="border-gray-300" />
+                </td>
+              </tr>
+            </React.Fragment>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</CartWrapper>
+
+      <div className="w-[1520px] flex justify-end mt-16 ml-44">
+      <div className="w-[35%]  bg-white p-6 rounded-lg shadow-md border-1 border-[#D9D9D9] ">
             <h2 className="text-xl font-bold mb-4 text-center pt-2">
               Order Summary
             </h2>
@@ -161,61 +171,18 @@ const ShoppingCart = () => {
               </div>
             </div>
 
-            <h3 className="text-lg font-semibold mt-16 text-center">Payment</h3>
-            <hr className=" bg-[#C5C5C5] mt-6" />
-            <div className="flex justify-between mt-8 mb-4">
-              <span>Credit Card</span>
-              <div className="flex space-x-2">
-                <img src={visa} alt="Visa" className="w-8 h-8" />
-                <img src={mCard} alt="MasterCard" className="w-8 h-8" />
-                <img src={paypal} alt="PayPal" className="w-8 h-8" />
-              </div>
-            </div>
-
-            <div className="space-y-4 mt-10">
-              <input
-                type="text"
-                name="cardNumber"
-                value={paymentData.cardNumber}
-                onChange={handlePaymentChange}
-                placeholder="Card number"
-                className="border border-gray-300 p-3 rounded-md w-full"
-              />
-              <div className="flex space-x-4">
-                <input
-                  type="text"
-                  name="expirationDate"
-                  value={paymentData.expirationDate}
-                  onChange={handlePaymentChange}
-                  placeholder="Expiration date (MM/YY)"
-                  className="border border-gray-300 p-3 rounded-md w-1/2"
-                />
-                <input
-                  type="text"
-                  name="securityCode"
-                  value={paymentData.securityCode}
-                  onChange={handlePaymentChange}
-                  placeholder="Security code"
-                  className="border border-gray-300 p-3 rounded-md w-1/2"
-                />
-              </div>
-              <input
-                type="text"
-                name="cardholderName"
-                value={paymentData.cardholderName}
-                onChange={handlePaymentChange}
-                placeholder="Cardholder name"
-                className="border border-gray-300 p-3 rounded-md w-full"
-              />
-            </div>
+           
 
             <button
               onClick={handleSubmitPayment}
-              className="bg-black text-white py-2 px-4 rounded-full w-full mt-10"
+              className="bg-black text-white py-2 px-4 rounded-full w-full mt-10 mb-10"
             >
-              Place Order Now
+              Continue to checkout
             </button>
           </div>
+      </div>
+      <div className="mt-20 ">
+        <NewsletterSection/>
       </div>
     </div>
   );
