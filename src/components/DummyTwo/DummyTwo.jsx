@@ -1,7 +1,7 @@
-import React from "react";
+
 
 const DummyTwo = () => {
-  return <div className="h-[1000px] bg-blue-400">DummyTwo</div>;
+  return <div className="h-[1000px] bg-white">DummyTwo</div>;
 };
 
 export default DummyTwo;
