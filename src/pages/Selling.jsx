@@ -4,8 +4,9 @@ import NewsletterSection from '../components/closetProducts/NewsletterSection';
 
 const Selling = () => {
   return (
-    <div>
+    <div className='bg-white'>
       <SellingMade />
+
       <NewsletterSection />
     </div>
   );
