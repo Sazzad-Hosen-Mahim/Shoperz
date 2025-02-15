@@ -6,7 +6,7 @@ import NewsletterSection from "../components/closetProducts/NewsletterSection.js
 const About = () => {
 
     return (
-        <div className="mt-10">
+        <div className="bg-white">
             <ServiceProcess />
             <OfferBag />
             <OfferProductReview />

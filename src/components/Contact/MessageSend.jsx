@@ -27,7 +27,7 @@ export default function MessageSend() {
     };
 
     return (
-        <div className="bg-">
+        <div className="">
             {/* Contact */}
             <ReuseSubHeader title="Contact" subtitle="Home /Contact " />
             <div className="flex items-center justify-center min-h-screen py-6 px-4 md:px-6 lg:px-8">
@@ -38,28 +38,28 @@ export default function MessageSend() {
                         <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                             <div className="flex flex-wrap">
                                 {/* First Name */}
-                                <div className="flex flex-col w-1/2 p-4">
+                                <div className="flex flex-col w-full sm:w-1/2 p-4">
                                     <h2 className="mb-2 ml-2 font-geist font-medium text-lg">First Name</h2>
                                     <Input className="w-full h-[64px] rounded-[24px] border-[1px] p-[20px]"
                                         {...register("firstName", { required: true })} placeholder="First Name" />
                                 </div>
 
                                 {/* Last Name */}
-                                <div className="flex flex-col w-1/2 p-4">
+                                <div className="flex flex-col w-full sm:w-1/2 p-4">
                                     <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Last Name</h2>
                                     <Input className="w-full h-[64px] rounded-[24px] border-[1px] p-[20px]"
                                         {...register("lastName", { required: true })} placeholder="Last Name" />
                                 </div>
 
                                 {/* Email Address */}
-                                <div className="flex flex-col w-1/2 p-4">
+                                <div className="flex flex-col w-full sm:w-1/2 p-4">
                                     <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Email Address</h2>
                                     <Input className="w-full h-[64px] rounded-[24px] border-[1px] p-[20px]"
                                         {...register("email", { required: true })} type="email" placeholder="abc@gmail.com" />
                                 </div>
 
                                 {/* Phone Number */}
-                                <div className="flex flex-col w-1/2 p-4">
+                                <div className="flex flex-col w-full sm:w-1/2 p-4">
                                     <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Phone Number</h2>
                                     <Input className="w-full h-[64px] rounded-[24px] border-[1px] p-[20px]"
                                         {...register("phone", { required: true })} type="tel" placeholder="1234567" />
@@ -75,6 +75,9 @@ export default function MessageSend() {
                                     className="w-full h-[350px] p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 />
                             </div>
+
+
+
 
                             {/* burron */}
                             <div className="text-center mt-8 flex justify-start">
