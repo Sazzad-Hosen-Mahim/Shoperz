@@ -7,6 +7,7 @@ const Home = () => {
     <div className="w-full">
       <Header />
       <Collection />
+      
       <DummyTwo />
     </div>
   );
