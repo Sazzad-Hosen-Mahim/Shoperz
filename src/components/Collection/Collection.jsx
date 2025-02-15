@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CommonWrapper from "../CommonWrapper";
@@ -6,19 +7,25 @@ import { collectionProducts } from "../../lib/data";
 import gridImage from "../../assets/collection/twogrid/1.png";
 import { GoArrowUpRight } from "react-icons/go";
 import FeatureCard from "../ui/FeatureCard";
-import  recycle  from "../../assets/card-image/recycle.png";
+import recycle from "../../assets/card-image/recycle.png";
 import diamond from "../../assets/card-image/diamond.png";
 import delivery from "../../assets/card-image/delivery.png";
 import NewsletterSection from "../closetProducts/NewsletterSection";
 
-
 const Collection = () => {
+  const [selectedCollection, setSelectedCollection] = useState("option-one");
+
+  const handleCollectionChange = (value) => {
+    setSelectedCollection(value);
+  };
+
   return (
     <div className="mt-[140px] bg-white">
       <CommonWrapper>
         <div>
           <RadioGroup
-            defaultValue="option-one"
+            value={selectedCollection}
+            onValueChange={handleCollectionChange}
             className="flex justify-between px-[150px]"
           >
             <div className="flex items-center space-x-2">
@@ -37,10 +44,7 @@ const Collection = () => {
                 id="option-two"
                 className="text-black border-black"
               />
-              <Label
-                htmlFor="option-two text-geist"
-                className="text-[48px] font-[600] "
-              >
+              <Label htmlFor="option-two text-geist" className="text-[48px] font-[600]">
                 New Collection
               </Label>
             </div>
@@ -50,20 +54,41 @@ const Collection = () => {
                 id="option-three"
                 className="text-black border-black"
               />
-              <Label
-                htmlFor="option-three text-geist"
-                className="text-[48px] font-[600]"
-              >
-                What&apos;s Hot
+              <Label htmlFor="option-three text-geist" className="text-[48px] font-[600]">
+                What's Hot
               </Label>
             </div>
           </RadioGroup>
         </div>
-        <div className="grid grid-cols-3 gap-[10px] mt-[75px]">
-          {collectionProducts.map((card, i) => (
-            <CollectionCard card={card} key={i} />
-          ))}
+
+        {/* Conditional Rendering of Collection Cards */}
+        <div className="mt-[75px]">
+          {selectedCollection === "option-one" && (
+            <div className="grid grid-cols-3 gap-[10px]">
+              {collectionProducts.map((card, i) => (
+                <CollectionCard card={card} key={i} />
+              ))}
+            </div>
+          )}
+
+          {selectedCollection === "option-two" && (
+            <div className="grid grid-cols-3 gap-[10px] mt-[40px]">
+              {collectionProducts.slice(0, 3).map((card, i) => (
+                <CollectionCard card={card} key={i} />
+              ))}
+            </div>
+          )}
+
+          {selectedCollection === "option-three" && (
+            <div className="grid grid-cols-3 gap-[10px] mt-[40px]">
+              {collectionProducts.slice(0, 2).map((card, i) => (
+                <CollectionCard card={card} key={i} />
+              ))}
+            </div>
+          )}
         </div>
+
+        {/* Rest of the content */}
         <div className="mt-[140px] flex">
           <div
             className="h-[719px] w-full  flex items-center justify-center"
@@ -99,6 +124,7 @@ const Collection = () => {
             </div>
           </div>
         </div>
+
         <div className="bg-white">
           <div className="text-[48px] font-bold pt-12">Collection List</div>
           <div className="grid grid-cols-3 gap-[10px] mt-[40px]">
@@ -107,45 +133,47 @@ const Collection = () => {
             ))}
           </div>
         </div>
+
         <div className="text-[48px] font-bold text-center pt-16">We Supported By</div>
-      <div className="flex justify-center gap-4 mt-8">
-       
-      <div >
-          <FeatureCard
-          image={recycle}
-          description={"Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."}
-          title={"24 Hour Return Policy"}
-          bgColor="#E4D7CE"
-          />
+        <div className="flex justify-center gap-4 mt-8">
+          <div>
+            <FeatureCard
+              image={recycle}
+              description={"Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."}
+              title={"24 Hour Return Policy"}
+              bgColor="#E4D7CE"
+            />
+          </div>
+          <div>
+            <FeatureCard
+              image={delivery}
+              description={"Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."}
+              title={"Fast & Secure Delivery"}
+              bgColor="#F1ECE6"
+            />
+          </div>
+          <div>
+            <FeatureCard
+              image={diamond}
+              description={"Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."}
+              title={"Free Shipping on $100+"}
+              bgColor="#F8DAB0"
+            />
+          </div>
         </div>
+
+        <div className="mt-32">
+          <NewsletterSection />
+        </div>
+
         <div>
-          <FeatureCard
-          image={delivery}
-          description={"Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."}
-          title={"Fast & Secure Delivery"}
-          bgColor="#F1ECE6"
-          />
-        </div>
-        <div>
-          <FeatureCard
-          image={diamond}
-          description={"Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."}
-          title={"Free Shipping on $100+"}
-          bgColor="#F8DAB0"
-          />
-        </div>
-      </div>
-      <div className="mt-32">
-      <NewsletterSection/>
-      </div>
-      <div>
-      <div className="text-[48px] font-bold pt-16">Best Selling Bag</div>
-      <div className="grid grid-cols-3 gap-[10px] mt-[40px]">
+          <div className="text-[48px] font-bold pt-16">Best Selling Bag</div>
+          <div className="grid grid-cols-3 gap-[10px] mt-[40px]">
             {collectionProducts.slice(0, 3).map((card, i) => (
               <CollectionCard card={card} key={i} />
             ))}
           </div>
-      </div>
+        </div>
       </CommonWrapper>
     </div>
   );
