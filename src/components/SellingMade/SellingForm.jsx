@@ -1,3 +1,4 @@
+import React from "react";
 import { useForm } from "react-hook-form";
 import { Select, SelectTrigger, SelectContent, SelectItem } from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
@@ -16,8 +17,10 @@ const SellingForm = ({ onSubmit }) => {
                         {/* Design Item */}
                         <div className="flex flex-col w-full p-4">
                             <h2 className="mb-2 ml-2 font-geist font-medium text-lg">Design</h2>
-                            <Select {...register("design", { required: true })} className="w-full p-4">
-                                <SelectTrigger className="w-full sm:w-[493px] p-4 pt-8 pb-8 rounded-[24px] border-[1px]">Select A Design Name</SelectTrigger>
+                            <Select {...register("design", { required: true })}>
+                                <SelectTrigger className="w-full sm:w-[493px] p-4 pt-8 pb-8 rounded-[24px] border-[1px]">
+                                    Select A Design Name
+                                </SelectTrigger>
                                 <SelectContent>
                                     <SelectItem value="Graphic">Graphic</SelectItem>
                                     <SelectItem value="Autocad">Autocad</SelectItem>

@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/card";
 import axios from "axios";
 import ReuseSubHeader from "../../section/Shared/ReuseSubHeader";
 import SellingForm from "./SellingForm";
+import { FaCamera } from "react-icons/fa";
 
 const SellingMade = () => {
     const { handleSubmit, reset } = useForm();
@@ -13,7 +14,7 @@ const SellingMade = () => {
     const onSubmit = async (data) => {
         setIsSubmitting(true);
         try {
-            await axios.post("YOUR_API_ENDPOINT_HERE", data);
+            await axios.post("https://jsonplaceholder.typicode.com/posts", data);
             alert("Profile updated successfully!");
             reset();
         } catch (error) {
@@ -65,18 +66,20 @@ const SellingMade = () => {
         }
     };
 
-    const triggerFileInput = (label) => {
+    const triggerFileInput = (label, e) => {
+        // Stop event propagation to avoid triggering photo upload from Select
+        e.stopPropagation();
+
         // Only trigger if the card is active and file input is not already clicked
         if (activeCard === photoLabels.indexOf(label)) {
             fileInputRefs[label.toLowerCase()].current.click();
-
         }
     };
 
     return (
         <div className="min-h-screen bg-white">
             <ReuseSubHeader title="Selling Made Simple" subtitle="We Provide upfront quote (by our offer)" />
-            <SellingForm />
+            {/* <SellingForm onSubmit={onSubmit} /> */}
 
             <div className="w-full max-w-7xl mx-auto p-6 bg-gradient-to-r from-[#F1FBFF] to-orange-100 rounded-lg shadow-lg mt-8 mb-16">
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -85,7 +88,11 @@ const SellingMade = () => {
                         {photoLabels.map((label, index) => (
                             <Card
                                 key={label}
-                                onClick={() => triggerFileInput(label)} // Ensure it's triggered once for the active card
+                                onClick={(e) => {
+                                    if (index === activeCard) {
+                                        triggerFileInput(label, e);
+                                    }
+                                }}
                                 className={`p-4 text-center cursor-pointer h-[186px] w-full sm:w-[186px] ${index <= activeCard ? 'border-green-500' : ''}`}
                             >
                                 {formData.images[label.toLowerCase()] ? (
@@ -99,7 +106,8 @@ const SellingMade = () => {
                                     </div>
                                 ) : (
                                     <div className="flex flex-col justify-center items-center h-full">
-                                        <i className="fas fa-camera text-gray-700 text-4xl"></i>
+                                        {/* Show camera icon only for the first non-uploaded card */}
+                                        {index === 0 && <FaCamera className="text-gray-700 text-4xl" />}
                                         <span className="text-sm text-gray-600 mt-2">{label}</span>
                                         {index === activeCard && (
                                             <input
@@ -126,7 +134,6 @@ const SellingMade = () => {
                     </div>
                 </form>
             </div>
-
         </div>
     );
 };

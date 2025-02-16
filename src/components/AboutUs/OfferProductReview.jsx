@@ -119,8 +119,8 @@ export default function OfferProductReview() {
     );
 }
 
-
-/* 
+/* Dynamic Page Done  */
+/*
 
 import { useState, useEffect } from "react";
 import axios from "axios";
