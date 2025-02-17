@@ -14,13 +14,14 @@ import ProductLabelWithValue from "../components/product-details/ProductLabelWit
 import { MinusIcon, PlusIcon, ShoppingBagIcon } from "lucide-react";
 import NewsletterSection from "../components/closetProducts/NewsletterSection";
 
+
 const ProductDetails = () => {
   return (
-    <div>
+    <div className="bg-white">
       {/* =====Header Section======= */}
       <div className="bg-gradient-to-r from-[#F1FBFF] via-[#F1EDEB] to-[#F8DAB0] flex flex-col items-center">
         <h1 className="text-[72px] font-bold">Product Details</h1>
-        <div>
+        <div className="mt-10">
           <Breadcrumbs>
             <BreadcrumbItem>Home</BreadcrumbItem>
             <BreadcrumbItem>shop</BreadcrumbItem>
@@ -30,7 +31,8 @@ const ProductDetails = () => {
       </div>
 
       {/* =======product main details======= */}
-      <div className="flex gap-5 mt-10">
+<CommonWrapper>
+<div className="flex gap-5 mt-10">
         {/* image section */}
         <div className="flex flex-col gap-3">
           <Image
@@ -41,12 +43,13 @@ const ProductDetails = () => {
           <div className="flex gap-2">
             {Array(4)
               .fill(null)
-              .map((item) => {
+              .map((item,i) => {
                 return (
                   <Image
                     src="/src/assets/product-details/small-bag.png"
                     width={160}
                     height={160}
+                    key={i}
                   />
                 );
               })}
@@ -130,18 +133,20 @@ const ProductDetails = () => {
           </div>
         </div>
       </div>
+</CommonWrapper>
 
       {/* =======review======= */}
-      <div className="mt-10">
+   <CommonWrapper>
+   <div className="mt-10">
         <p className="font-semibold">Review</p>
         <Divider className="py-[2px] mt-5" />
 
         <div className="pt-5 flex flex-col gap-3">
           {Array(10)
             .fill(null)
-            .map((item) => {
+            .map((item,i) => {
               return (
-                <div className="flex gap-4">
+                <div key={i} className="flex gap-4">
                   <Image
                     src="/src/assets/product-details/person.png"
                     width={100}
@@ -173,18 +178,20 @@ const ProductDetails = () => {
           <Pagination total={5} renderItem={5} page={1} showControls />
         </div>
       </div>
+   </CommonWrapper>
 
       {/* =======Related Product======= */}
-      <div className="mt-4">
+   <CommonWrapper>
+   <div className="mt-4">
         <h3 className="text-[#141414] font-semibold text-2xl">
           Related Product
         </h3>
         <div className="flex justify-between gap-5 mt-5">
           {Array(4)
             .fill(null)
-            .map((item) => {
+            .map((item,i) => {
               return (
-                <div className="">
+                <div key={i} className="">
                   <Image
                     src="/src/assets/product-details/medium-image.png"
                     width={350}
@@ -210,6 +217,7 @@ const ProductDetails = () => {
             })}
         </div>
       </div>
+   </CommonWrapper>
 
       {/* =======News Letter======= */}
       <div className="mt-10">
