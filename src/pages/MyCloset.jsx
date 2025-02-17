@@ -8,8 +8,8 @@ import NewsletterSection from "../components/closetProducts/NewsletterSection";
 
 const MyCloset = () => {
   return (
-    <div>
-      <div className="bg-white mt-6">
+    <div className="relative overflow-hidden">
+      <div className="bg-white mt-6  ">
         <div className="text-center">
           <h1 className="text-[72px] font-bold">My Closet</h1>
           <p className="text-[#7F7F7F]">
