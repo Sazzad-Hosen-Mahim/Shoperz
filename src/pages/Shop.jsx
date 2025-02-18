@@ -1,31 +1,47 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
 import { Breadcrumbs, BreadcrumbItem } from "@heroui/react";
 import NewsletterSection from "../components/closetProducts/NewsletterSection";
 import { ChevronDown, ArrowLeft, ArrowRight, Menu } from "lucide-react";
-import { useState } from "react";
-import ArrivalProducts from "../components/ArrivalProducts/ArrivalProducts";
 import FilterSection from "../components/side-bar/FilterSection";
 
 const Shop = () => {
-  const [selected, setSelected] = useState("All");
-  const [isOpen, setIsOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const options = ["All", "Newest", "Popularity"];
+  const [products, setProducts] = useState([]); // Store API products
+  const [filteredProducts, setFilteredProducts] = useState([]); // Store filtered products
+  const [loading, setLoading] = useState(true);
 
-  // Pagination States
+  //pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 12;
-  const totalProducts = 36; // Example: Assuming 36 products exist
+  const totalProducts = products.length; // Example: Assuming products array is populated
   const totalPages = Math.ceil(totalProducts / productsPerPage);
 
-  // Dummy Product Array
-  const products = Array.from({ length: totalProducts }, (_, i) => i + 1);
+  // Fetch Products from API
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await axios.get(
+          "https://our-bag-server.onrender.com/api/v1/products/all-product"
+        );
+        setProducts(response.data.data);
+        setFilteredProducts(response.data.data); // Set initial filtered products
+      } catch (error) {
+        console.error("Error fetching products:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  // Get Current Products for the Page
+    fetchProducts();
+  }, []);
+
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
-  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+  const currentProducts = products.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
 
-  // Pagination Handlers
   const nextPage = () => {
     if (currentPage < totalPages) {
       setCurrentPage(currentPage + 1);
@@ -53,111 +69,111 @@ const Shop = () => {
 
       {/* Sidebar and Sorting Section */}
       <div className="flex flex-col lg:flex-row mt-20 px-4 lg:px-20">
-        {/* Mobile Sidebar Toggle Button */}
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="lg:hidden flex items-center gap-2 bg-gray-200 px-4 py-2 rounded-md w-full"
-        >
-          <Menu size={20} />
-          <span>Filters</span>
-        </button>
-
-        {/* Sidebar (Mobile Collapsible + Desktop Fixed) */}
-        <div
-          className={`fixed lg:relative top-0 left-0 w-3/4 md:w-1/2 lg:w-[349px] h-full lg:h-auto bg-white p-[24px] shadow-lg lg:shadow-none transition-transform transform ${
-            isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-          } lg:translate-x-0 z-50 lg:z-auto`}
-        >
-          <FilterSection />
-          {/* Close Button for Mobile Sidebar */}
-          <button
-            onClick={() => setIsSidebarOpen(false)}
-            className="lg:hidden absolute top-4 right-4 bg-red-500 text-white px-3 py-1 rounded-md"
-          >
-            Close
-          </button>
+        {/* Sidebar */}
+        <div className="lg:w-[349px] bg-white p-[24px] shadow-md">
+          <FilterSection
+            products={products}
+            setFilteredProducts={setFilteredProducts}
+          />
         </div>
 
         {/* Main Content Section */}
         <div className="flex-1 lg:pl-20">
-          {/* Sorting Section */}
-          <div className="flex flex-col md:flex-row justify-between items-center w-full mb-10">
-            <p className="text-gray-700 text-center md:text-left">
-              There are {totalProducts} products in total
-            </p>
-
-            <div className="relative">
-              <button
-                onClick={() => setIsOpen(!isOpen)}
-                className="flex items-center justify-between w-40 px-4 py-1 border border-gray-300 rounded-lg shadow-sm bg-[#E5E5E5] text-gray-700"
-              >
-                {selected}
-                <ChevronDown size={20} className="text-gray-500" />
-              </button>
-
-              {isOpen && (
-                <div className="absolute mt-2 w-40 bg-white border border-gray-200 rounded-lg shadow-lg z-50">
-                  {options.map((option, index) => (
-                    <div
-                      key={index}
-                      onClick={() => {
-                        setSelected(option);
-                        setIsOpen(false);
-                      }}
-                      className="px-4 py-2 cursor-pointer hover:bg-gray-100 text-gray-700"
-                    >
-                      {option}
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* Product Grid - Responsive */}
+          {/* Display Filtered Products */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {currentProducts.map((_, index) => (
-              <ArrivalProducts key={index} />
-            ))}
-          </div>
+            {loading ? (
+              <p className="text-center text-lg">Loading products...</p>
+            ) : filteredProducts.length === 0 ? (
+              <p className="text-center text-red-500">
+                No products match your filters.
+              </p>
+            ) : (
+              filteredProducts.map((product) => (
+                <div
+                  key={product._id}
+                  className="bg-white shadow-lg rounded-lg p-4 text-center"
+                >
+                  {/* Product Image */}
+                  <div className="relative group">
+                    <img
+                      src={
+                        product.variantId?.[0]?.images?.[0] ||
+                        "/placeholder.jpg"
+                      }
+                      alt={product.name}
+                      className="w-full h-56 object-contain mb-4 transition-all duration-300 group-hover:brightness-50"
+                    />
 
-          {/* Pagination - Centered on Mobile */}
-          <div className="flex justify-center items-center gap-2 mt-10">
-            <button
-              onClick={prevPage}
-              disabled={currentPage === 1}
-              className={`w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 ${
-                currentPage === 1 ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"
-              }`}
-            >
-              <ArrowLeft size={18} />
-            </button>
+                    {/* View Details Button (Hidden by Default) */}
+                    <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-sm font-semibold px-4 py-2 rounded-md opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                      View Details
+                    </button>
+                  </div>
 
-            {Array.from({ length: totalPages }, (_, i) => (
-              <button
-                key={i + 1}
-                onClick={() => setCurrentPage(i + 1)}
-                className={`w-8 h-8 flex items-center justify-center rounded-full ${
-                  currentPage === i + 1 ? "text-black font-bold bg-gray-300" : "border border-gray-300"
-                }`}
-              >
-                {i + 1}
-              </button>
-            ))}
+                  {/* Product Name */}
+                  <h2 className="text-xl font-semibold">{product.name}</h2>
+                  {/* Product Price */}
+                  <p className="text-lg font-semibold mt-2">
+                    ${product.currentPrice}
+                  </p>
 
-            <button
-              onClick={nextPage}
-              disabled={currentPage === totalPages}
-              className={`w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 ${
-                currentPage === totalPages ? "opacity-50 cursor-not-allowed" : "hover:bg-gray-200"
-              }`}
-            >
-              <ArrowRight size={18} />
-            </button>
+                  {/* Product Color */}
+                  {product.variantId?.[0]?.colorHexCode && (
+                    <div className="flex justify-center mt-2">
+                      <span
+                        className="w-6 h-6 rounded-full border border-gray-300"
+                        style={{
+                          backgroundColor: product.variantId[0].colorHexCode,
+                        }}
+                      ></span>
+                    </div>
+                  )}
+                </div>
+              ))
+            )}
           </div>
         </div>
       </div>
 
+      {/* Pagination Section */}
+
+      <div className="flex justify-center items-center gap-2 mt-10">
+        <button
+          onClick={prevPage}
+          disabled={currentPage === 1}
+          className={`w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 ${
+            currentPage === 1
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-gray-200"
+          }`}
+        >
+          <ArrowLeft size={18} />
+        </button>
+        {Array.from({ length: totalPages }, (_, i) => (
+          <button
+            key={i + 1}
+            onClick={() => setCurrentPage(i + 1)}
+            className={`w-8 h-8 flex items-center justify-center rounded-full ${
+              currentPage === i + 1
+                ? "text-black font-bold bg-gray-300"
+                : "border border-gray-300"
+            }`}
+          >
+            {i + 1}
+          </button>
+        ))}
+        <button
+          onClick={nextPage}
+          disabled={currentPage === totalPages}
+          className={`w-8 h-8 flex items-center justify-center rounded-full border border-gray-300 ${
+            currentPage === totalPages
+              ? "opacity-50 cursor-not-allowed"
+              : "hover:bg-gray-200"
+          }`}
+        >
+          <ArrowRight size={18} />
+        </button>
+      </div>
       {/* Newsletter Section */}
       <div className="mt-16 px-4 lg:px-20">
         <NewsletterSection />
