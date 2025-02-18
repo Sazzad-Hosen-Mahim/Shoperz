@@ -1,12 +1,12 @@
 import React from 'react';
 import MessageSend from '../components/Contact/MessageSend';
-import { NewsLetters } from '../hooks/shared/NewsLetters';
+import NewsletterSection from '../components/closetProducts/NewsletterSection';
 
 const Contact = () => {
   return (
     <div className='bg-white'>
       <MessageSend />
-      <NewsLetters />
+      <NewsletterSection />
     </div>
   );
 };
