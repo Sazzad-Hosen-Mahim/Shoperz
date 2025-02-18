@@ -1,8 +1,9 @@
 import ServiceProcess from "../components/AboutUs/ServiceProcess";
 import OfferProductReview from "../components/AboutUs/OfferProductReview.jsx";
 import OfferBag from "../components/AboutUs/OfferBag.jsx";
-import NewsletterSection from "../components/closetProducts/NewsletterSection.jsx";
-
+import { NewsLetters } from "../hooks/shared/NewsLetters.jsx";
+/* import NewsletterSection from "../components/closetProducts/NewsletterSection.jsx";
+ */
 const About = () => {
 
     return (
@@ -10,7 +11,8 @@ const About = () => {
             <ServiceProcess />
             <OfferBag />
             <OfferProductReview />
-            <NewsletterSection />
+            {/* <NewsletterSection /> */}
+            <NewsLetters />
         </div>
     );
 };
