@@ -6,7 +6,7 @@ import {
   NavbarMenu,
 } from "@heroui/react";
 
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../hooks/AuthContextProvider";
 import { motion } from "framer-motion";
@@ -142,12 +142,20 @@ export default function Header() {
       <NavbarContent justify="end">
         {user ? (
           <div className="flex items-center gap-4">
-            <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center">
+
+            <Link
+              to="/closet"
+              className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center"
+            >
               <CiHeart className="w-[24px] h-[24px]  text-black" />
-            </div>
-            <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center">
+            </Link>
+            <Link
+              to="/shopping-cart"
+              className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center"
+            >
               <IoCartOutline className="w-[24px] h-[24px]  text-black" />
-            </div>
+            </Link>
+
             <UserPopover user={user} logout={logout} />
           </div>
         ) : (

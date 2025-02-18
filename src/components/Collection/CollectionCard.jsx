@@ -5,23 +5,26 @@ import { FiArrowUpRight } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 
 const CollectionCard = ({ product, index }) => {
-
   const navigate = useNavigate();
   const bgColors = [
-    "rgba(38, 38, 38, 0.40)", 
-    "#F0EDE6", 
-    "#ECE8E5", 
-    "#E2DCD0", 
-    "#E4D7CE", 
-    "#F0EDE6"
+    "rgba(38, 38, 38, 0.40)",
+    "#F0EDE6",
+    "#ECE8E5",
+    "#E2DCD0",
+    "#E4D7CE",
+    "#F0EDE6",
   ];
-  
+
   const bgColor = bgColors[index % bgColors.length]; // Assign background color cyclically
   const productImage = product.variantId?.[0]?.images?.[0] || ""; // Get first image
 
-  const handleViewDetails = () =>{
+  const handleViewDetails = () => {
     navigate(`/products/${product.variantId?.[0]?._id}`);
-  }
+  };
+
+  const handleClick = (product) => {
+    console.log("Heart Clicked", product);
+  };
 
   return (
     <Card
@@ -35,12 +38,17 @@ const CollectionCard = ({ product, index }) => {
       <CardHeader className="relative z-10">
         <div className="flex justify-between mt-[32px]">
           <div>
-            <p className="text-[20px] text-black">{product.name || "Product Name"}</p>
+            <p className="text-[20px] text-black">
+              {product.name || "Product Name"}
+            </p>
             <p className="font-bold mt-[12px] text-[24px] text-black">
               ${product.currentPrice || "N/A"}
             </p>
           </div>
-          <button className="w-[50px] h-[50px] rounded-full flex items-center bg-white justify-center">
+          <button
+            onClick={() => handleClick(product)}
+            className="w-[50px] h-[50px] rounded-full flex items-center bg-white justify-center"
+          >
             <CiHeart className="w-[24px] h-[24px]" />
           </button>
         </div>
@@ -62,13 +70,13 @@ const CollectionCard = ({ product, index }) => {
 
         {/* Hover Buttons */}
         <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-        <button
+          <button
             className="px-8 py-3 bg-black text-white rounded-full flex items-center"
             onClick={handleViewDetails} // Trigger navigation on click
           >
             View Details
           </button>
-          
+
           <button
             className="w-[50px] h-[50px] bg-black text-white rounded-full flex items-center justify-center"
             onClick={handleViewDetails} // Also navigate on icon click

@@ -87,7 +87,6 @@ const Collection = () => {
             )}
           </div>
         )}
-
         {/* Rest of the content */}
         <div className="mt-[140px] flex">
           <div
