@@ -22,7 +22,7 @@ const SignIn = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const { path } = location.state || {};
-  const { user, setUser, googleSignIn } = useContext(AuthContext);
+  const { user, setUser } = useContext(AuthContext);
   const [isLoading, setIsLoading] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const {
@@ -39,8 +39,8 @@ const SignIn = () => {
 
   const onSuccess = (res) => {
     toast.success("Successfully Logged In");
-    console.log(res?.approvalToken);
-    Cookies.set("user", res?.approvalToken, { expires: 30 });
+    console.log(res?.data?.user);
+    Cookies.set("user", JSON.stringify(res), { expires: 30 });
     setUser(res);
     setIsLoading(false);
     // navigate(path || "/admin");
@@ -52,11 +52,7 @@ const SignIn = () => {
     setIsLoading(false);
   };
 
-  const { mutate, isPending } = usePostMutate(
-    "/auth/login",
-    onSuccess,
-    onError
-  );
+  const { mutate } = usePostMutate("/auth/login", onSuccess, onError);
 
   const onSubmit = async (userData) => {
     setIsLoading(true);
@@ -65,28 +61,6 @@ const SignIn = () => {
 
   const toggleVisibility = () => setIsVisible(!isVisible);
 
-  const providerSignIn = async (payload) => {
-    const token = await payload.user.getIdToken();
-    console.log(token);
-
-    const response = await Axios.post(
-      "/auth/provider",
-      {},
-      {
-        headers: {
-          Authorization: token,
-        },
-      }
-    );
-    toast.success("Successfully logged in");
-    setUser(response?.data?.data?.user);
-    navigate(path || "/admin");
-    Cookies.set("user", response?.data?.data?.accessToken, { expires: 30 });
-
-    console.log(response?.data);
-
-    return response;
-  };
   return (
     <div
       style={{
