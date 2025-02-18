@@ -57,9 +57,10 @@ const SignUp = () => {
     setIsLoading(false);
   };
 
-  const { mutate } = usePostMutate("/users/", onSuccess, onError);
+  const { mutate } = usePostMutate("/user/createUser", onSuccess, onError);
 
   const onSubmit = async (userData) => {
+    console.log(userData, "signupUserData");
     setIsLoading(true);
     if (!userData.avatar) {
       setIsLoading(false);
@@ -69,22 +70,7 @@ const SignUp = () => {
       });
     }
     mutate(userData);
-  };
-
-  const handleFileChange = async (e) => {
-    toast.loading("Uploading Image Please Wait...");
-    const selectedFile = e.target.files?.[0];
-    if (selectedFile) {
-      try {
-        const imageUrl = await imageUpload(selectedFile);
-        const { secure_url } = imageUrl;
-        setValue("avatar", secure_url);
-        clearErrors("avatar");
-        setAvatarUrl(secure_url);
-      } catch (e) {
-        console.log(e);
-      }
-    }
+    navigate("/login")
   };
 
   return (
@@ -128,6 +114,30 @@ const SignUp = () => {
                     labelPlacement="outside"
                     radius="lg"
                     errorMessage={errors.email && errors.email.message}
+                  />
+                </div>
+              )}
+            />
+            <Controller
+              name="phone"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Phone Number is required" }}
+              render={({ field }) => (
+                <div>
+                  <Input
+                    {...field}
+                    type="text"
+                    isInvalid={errors.phone ? true : false}
+                    classNames={{
+                      errorMessage: "text-left",
+                      inputWrapper: "bg-white",
+                    }}
+                    label="Phone Number"
+                    placeholder="+8801857589709"
+                    labelPlacement="outside"
+                    radius="lg"
+                    errorMessage={errors.phone && errors.phone.message}
                   />
                 </div>
               )}

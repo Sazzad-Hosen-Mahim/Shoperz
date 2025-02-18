@@ -39,10 +39,12 @@ const SignIn = () => {
 
   const onSuccess = (res) => {
     toast.success("Successfully Logged In");
-    Cookies.set("user", res?.data?.data?.accessToken, { expires: 30 });
-    setUser(res?.data?.data?.user);
+    console.log(res?.approvalToken);
+    Cookies.set("user", res?.approvalToken, { expires: 30 });
+    setUser(res);
     setIsLoading(false);
-    navigate(path || "/admin");
+    // navigate(path || "/admin");
+    navigate("/");
   };
 
   const onError = (err) => {
@@ -136,13 +138,13 @@ const SignIn = () => {
               name="password"
               control={control}
               defaultValue=""
-              rules={{
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password is incorrect",
-                },
-              }}
+              // rules={{
+              //   required: "Password is required",
+              //   minLength: {
+              //     value: 6,
+              //     message: "Password is incorrect",
+              //   },
+              // }}
               render={({ field }) => (
                 <div>
                   <Input
