@@ -142,6 +142,7 @@ export default function Header() {
       <NavbarContent justify="end">
         {user ? (
           <div className="flex items-center gap-4">
+
             <Link
               to="/closet"
               className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center"
@@ -154,6 +155,7 @@ export default function Header() {
             >
               <IoCartOutline className="w-[24px] h-[24px]  text-black" />
             </Link>
+
             <UserPopover user={user} logout={logout} />
           </div>
         ) : (

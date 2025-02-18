@@ -79,7 +79,7 @@ const SellingMade = () => {
     return (
         <div className="min-h-screen bg-white">
             <ReuseSubHeader title="Selling Made Simple" subtitle="We Provide upfront quote (by our offer)" />
-            {/* <SellingForm onSubmit={onSubmit} /> */}
+            <SellingForm onSubmit={onSubmit} />
 
             <div className="w-full max-w-7xl mx-auto p-6 bg-gradient-to-r from-[#F1FBFF] to-orange-100 rounded-lg shadow-lg mt-8 mb-16">
                 <form onSubmit={handleSubmit(onSubmit)}>
