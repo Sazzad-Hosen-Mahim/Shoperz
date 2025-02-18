@@ -1,13 +1,12 @@
 import React from 'react';
 import SellingMade from '../components/SellingMade/SellingMade';
-import NewsletterSection from '../components/closetProducts/NewsletterSection';
+import { NewsLetters } from '../hooks/shared/NewsLetters';
 
 const Selling = () => {
   return (
     <div className='bg-white'>
       <SellingMade />
-
-      <NewsletterSection />
+      <NewsLetters />
     </div>
   );
 };
