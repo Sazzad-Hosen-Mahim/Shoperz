@@ -193,12 +193,14 @@ const Shop = () => {
           <Button
             onClick={() => handleDelete(selectedProduct?.variantId?.[0]?._id)}
             variant="destructive"
+            type="button"
           >
             Delete
           </Button>
           <Button
             onClick={() => handleUpdate(selectedProduct?.variantId?.[0]?._id)}
             variant="outline"
+            type="button"
           >
             Update Variant
           </Button>

@@ -5,6 +5,7 @@ import mCard from "../../assets/chekout-image/mCard.png";
 import paypal from "../../assets/chekout-image/paypal.png";
 import visa from "../../assets/chekout-image/visa.png";
 import NewsletterSection from "../../components/closetProducts/NewsletterSection";
+import Cookies from "js-cookie";
 import {
   CardCvcElement,
   CardExpiryElement,
@@ -13,6 +14,7 @@ import {
   useStripe,
 } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
+import toast from "react-hot-toast";
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -39,6 +41,8 @@ const CheckoutForm = () => {
     securityCode: "",
     cardholderName: "",
   });
+
+  const [paymentMethod, setPaymentMethod] = useState("SSL");
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -73,19 +77,28 @@ const CheckoutForm = () => {
       return;
     }
     //modify with actual api
-    const response = await fetch("http://localhost:5000/api/payment", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ paymentMethodId: paymentMethod.id, ...formData }),
-    });
+    const response = await fetch(
+      "https://our-bag-server.onrender.com/api/v1/user/makeAnOrder",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${Cookies.get("user")}`,
+        },
+        body: JSON.stringify({
+          paymentMethodId: paymentMethod.id,
+          ...formData,
+        }),
+      }
+    );
 
     const data = await response.json();
     setProcessing(false);
 
     if (data.success) {
-      navigate(data.redirectUrl); //modify
+      toast("Payment Done"); //modify
     } else {
-      navigate(data.redirectUrl); //modify
+      toast("payment failed"); //modify
     }
   };
 
@@ -310,6 +323,21 @@ const CheckoutForm = () => {
             </div>
 
             <h3 className="text-lg font-semibold mt-16 text-center">Payment</h3>
+            <div className="mt-4">
+              <label htmlFor="paymentMethod" className="font-medium">
+                Select Payment Method
+              </label>
+              <select
+                id="paymentMethod"
+                value={paymentMethod}
+                onChange={(e) => setPaymentMethod(e.target.value)}
+                className="mt-2 p-3 rounded-md border border-gray-300 w-full"
+              >
+                <option value="SSL">SSL</option>
+                <option value="On-Arrival">On-Arrival</option>
+              </select>
+            </div>
+
             <hr className=" bg-[#C5C5C5] mt-6" />
             <div className="flex justify-between mt-8 mb-4">
               <span>Credit Card</span>
@@ -321,43 +349,56 @@ const CheckoutForm = () => {
             </div>
 
             <form onSubmit={handleSubmit}>
-              <div>
-                <div className="space-y-4 mt-10">
-                  <div>
-                    <label className="font-medium pb-4 pt-3">
-                      Card Number *
-                    </label>
-                    <CardNumberElement options={cardElementStyles} />
-                  </div>
-                  <div className="flex space-x-4">
+              {paymentMethod === "SSL" && (
+                <div>
+                  <div className="space-y-4 mt-10">
                     <div>
                       <label className="font-medium pb-4 pt-3">
-                        Expiration Date *
+                        Card Number *
                       </label>
-                      <CardExpiryElement options={cardElementStyles} />
+                      <CardNumberElement options={cardElementStyles} />
                     </div>
-                    <div>
-                      <label className="font-medium pb-4 pt-3">CVC *</label>
-                      <CardCvcElement options={cardElementStyles} />
+                    <div className="flex space-x-4">
+                      <div>
+                        <label className="font-medium pb-4 pt-3">
+                          Expiration Date *
+                        </label>
+                        <CardExpiryElement options={cardElementStyles} />
+                      </div>
+                      <div>
+                        <label className="font-medium pb-4 pt-3">CVC *</label>
+                        <CardCvcElement options={cardElementStyles} />
+                      </div>
                     </div>
+                    <input
+                      type="text"
+                      name="cardholderName"
+                      value={paymentData.cardholderName}
+                      onChange={handlePaymentChange}
+                      placeholder="Cardholder name"
+                      className="border border-gray-300 p-3 rounded-md w-full"
+                    />
                   </div>
-                  <input
-                    type="text"
-                    name="cardholderName"
-                    value={paymentData.cardholderName}
-                    onChange={handlePaymentChange}
-                    placeholder="Cardholder name"
-                    className="border border-gray-300 p-3 rounded-md w-full"
-                  />
                 </div>
-                <button
-                  type="submit"
-                  disabled={processing || !stripe}
-                  className="bg-black text-white py-2 px-4 rounded-full w-full mt-10"
-                >
-                   {processing ? "processing..." : "Place Order Now"}
-                </button>
-              </div>
+              )}
+              {/* {paymentMethod === "On-Arrival" && (
+                <div className="mt-4">
+                  <button
+                    type="submit"
+                    disabled={processing || !stripe}
+                    className="bg-black text-white py-2 px-4 rounded-full w-full"
+                  >
+                    Confirm On-Arrival Payment
+                  </button>
+                </div>
+              )} */}
+              <button
+                onClick={handleSubmit}
+                disabled={processing || !stripe}
+                className="bg-black text-white py-2 px-4 rounded-full w-full mt-10"
+              >
+                {processing ? "Processing..." : "Place Order Now"}
+              </button>
             </form>
           </div>
         </div>
