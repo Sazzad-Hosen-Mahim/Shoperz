@@ -2,9 +2,19 @@
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { CiHeart } from "react-icons/ci";
 import { FiArrowUpRight } from "react-icons/fi";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { addToWishlist } from "../../redux/features/wishlistSlice";
+import { useContext } from "react";
+import { AuthContext } from "../../hooks/AuthContextProvider";
 
 const CollectionCard = ({ product, index }) => {
+  const { user, logout } = useContext(AuthContext);
+  console.log(user?.userId);
+
+  const userID = user?.userId;
+
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const bgColors = [
     "rgba(38, 38, 38, 0.40)",
@@ -22,8 +32,17 @@ const CollectionCard = ({ product, index }) => {
     navigate(`/products/${product.variantId?.[0]?._id}`);
   };
 
-  const handleClick = (product) => {
-    console.log("Heart Clicked", product);
+  const handleWishList = (product) => {
+    const productID = product?._id;
+    console.log(product);
+    if (!userID || !productID) {
+      console.error("Error: userID or productID is missing", {
+        userID,
+        productID: product._id,
+      });
+      return;
+    }
+    dispatch(addToWishlist({ userID, productID }));
   };
 
   return (
@@ -46,7 +65,7 @@ const CollectionCard = ({ product, index }) => {
             </p>
           </div>
           <button
-            onClick={() => handleClick(product)}
+            onClick={() => handleWishList(product)}
             className="w-[50px] h-[50px] rounded-full flex items-center bg-white justify-center"
           >
             <CiHeart className="w-[24px] h-[24px]" />

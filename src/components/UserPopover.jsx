@@ -6,17 +6,24 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
 import { Separator } from "./ui/separator";
-
 import { ModeToggle } from "./ui/ModeToggle";
 import { Button } from "@heroui/react";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { resetWishlist } from "../redux/features/wishlistSlice";
 
 const UserPopover = ({ user, logout }) => {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
   const handleLogout = () => {
+    console.log(resetWishlist);
+    dispatch(resetWishlist());
     logout()
       .then(() => {
         console.log("User logged out");
+        navigate("/");
       })
       .catch((err) => {
         console.error(err);

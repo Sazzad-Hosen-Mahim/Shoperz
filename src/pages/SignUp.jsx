@@ -45,10 +45,11 @@ const SignUp = () => {
   }, []);
 
   const onSuccess = (res) => {
+    console.log(res);
     Cookies.set("user", res?.data?.data?.accessToken, { expires: 30 });
     setUser(res?.data?.data?.user);
-    toast.success("Successfully Created User");
-    navigate(path || "/dashboard");
+    toast.success("User Created Successfully");
+    navigate("/login");
     setIsLoading(false);
   };
 
@@ -62,15 +63,15 @@ const SignUp = () => {
   const onSubmit = async (userData) => {
     console.log(userData, "signupUserData");
     setIsLoading(true);
-    if (!userData.avatar) {
-      setIsLoading(false);
-      return setError("avatar", {
-        type: "manual",
-        message: "Image is required.",
-      });
-    }
+    // if (!userData.avatar) {
+    //   setIsLoading(false);
+    //   return setError("avatar", {
+    //     type: "manual",
+    //     message: "Image is required.",
+    //   });
+    // }
     mutate(userData);
-    navigate("/login")
+    navigate("/login");
   };
 
   return (
@@ -83,9 +84,9 @@ const SignUp = () => {
       <Card
         radius="none"
         shadow="none"
-        className="bg-transparent w-[493px] h-[722px]"
+        className="bg-transparent w-[493px] mb-16"
       >
-        <CardHeader className="p-0 w-full text-center flex flex-col  gap-5">
+        <CardHeader className="p-0 w-full text-center flex flex-col  gap-3">
           <AuthHeader heading="Sign Up" />
         </CardHeader>
 
@@ -94,6 +95,29 @@ const SignUp = () => {
             onSubmit={handleSubmit(onSubmit)}
             className="text-center flex flex-col gap-5 mt-8 "
           >
+            <Controller
+              name="name"
+              control={control}
+              defaultValue=""
+              rules={{ required: "Name is required" }}
+              render={({ field }) => (
+                <div>
+                  <Input
+                    {...field}
+                    type="text"
+                    isInvalid={errors.name ? true : false}
+                    classNames={{
+                      errorMessage: "text-left",
+                      inputWrapper: "bg-white",
+                    }}
+                    label="Name"
+                    labelPlacement="outside"
+                    radius="lg"
+                    errorMessage={errors.name && errors.name.message}
+                  />
+                </div>
+              )}
+            />
             <Controller
               name="email"
               control={control}
@@ -110,7 +134,6 @@ const SignUp = () => {
                       inputWrapper: "bg-white",
                     }}
                     label="Email Address"
-                    placeholder="web.munnaahmed@gmail.com"
                     labelPlacement="outside"
                     radius="lg"
                     errorMessage={errors.email && errors.email.message}
@@ -134,7 +157,6 @@ const SignUp = () => {
                       inputWrapper: "bg-white",
                     }}
                     label="Phone Number"
-                    placeholder="+8801857589709"
                     labelPlacement="outside"
                     radius="lg"
                     errorMessage={errors.phone && errors.phone.message}
@@ -147,13 +169,6 @@ const SignUp = () => {
               name="password"
               control={control}
               defaultValue=""
-              rules={{
-                required: "Password is required",
-                minLength: {
-                  value: 6,
-                  message: "Password is incorrect",
-                },
-              }}
               render={({ field }) => (
                 <div>
                   <Input

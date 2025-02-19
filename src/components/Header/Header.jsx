@@ -8,6 +8,7 @@ import bag2 from "../../assets/header/bags/2.png";
 import bag3 from "../../assets/header/bags/3.png";
 import bag4 from "../../assets/header/bags/4.png";
 import hoverBag1 from "../../assets/header/bags/hover-1.png";
+import { Link } from "react-router-dom";
 
 const BAG_DATA = [
   {
@@ -75,9 +76,11 @@ const Header = () => {
           verified and curated collections.
         </p>
         <div className="mt-8 flex justify-center ">
-          <button className="bg-black px-[48px] py-[14px] text-[16px] text-white font-semibold rounded-[36px]">
-            Start Shopping
-          </button>
+          <Link to="/shop">
+            <button className="bg-black px-[48px] py-[14px] text-[16px] text-white font-semibold rounded-[36px]">
+              Start Shopping
+            </button>
+          </Link>
           <button className="bg-black p-[20px] text-white rounded-full">
             <GoArrowUpRight />
           </button>
