@@ -74,8 +74,10 @@ export default function Header() {
             animate="visible"
             variants={menuVariant}
           >
-            <motion.div variants={childVariant} className="w-[176px] h-[112px]">
-              <img src={logo} alt="" />
+            <motion.div variants={childVariant} className="w-[200px]">
+              <Link to="/">
+                <img src={logo} alt="" />
+              </Link>
             </motion.div>
           </motion.div>
         </div>
