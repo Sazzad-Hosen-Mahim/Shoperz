@@ -16,6 +16,7 @@ import { StarFilledIcon } from "@radix-ui/react-icons";
 import ProductLabelWithValue from "../components/product-details/ProductLabelWithValue";
 import { MinusIcon, PlusIcon, ShoppingBagIcon } from "lucide-react";
 import NewsletterSection from "../components/closetProducts/NewsletterSection";
+import AddReview from "../components/product-details/AddReview";
 
 
 const ProductDetails = () => {
@@ -45,7 +46,7 @@ const ProductDetails = () => {
   if (!product) {
     return <p className="text-center mt-10 text-red-500">Product not found.</p>;
   }
-console.log("retrive products",product)
+  console.log("retrive products", product)
   return (
     <div className="bg-white">
       {/* =====Header Section======= */}
@@ -177,6 +178,9 @@ console.log("retrive products",product)
           </div>
         </div>
       </CommonWrapper>
+
+      {/* Add Review */}
+      <AddReview />
 
       {/* =======News Letter======= */}
       <div className="mt-10">
