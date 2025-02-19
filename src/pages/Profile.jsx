@@ -3,7 +3,7 @@ import ProfilePage from '../components/ProfilePage/ProfilePage';
 
 const Profile = () => {
   return (
-    <div>
+    <div className='bg-white'>
       <ProfilePage />
       <NewsletterSection />
     </div>

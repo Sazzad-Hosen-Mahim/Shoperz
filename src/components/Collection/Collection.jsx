@@ -3,7 +3,7 @@ import { Label } from "@/components/ui/label";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import CommonWrapper from "../CommonWrapper";
 import CollectionCard from "./CollectionCard";
-import { collectionProducts } from "../../lib/data";
+import useCollectionProducts from "../../lib/Products";
 import gridImage from "../../assets/collection/twogrid/1.png";
 import { GoArrowUpRight } from "react-icons/go";
 import FeatureCard from "../ui/FeatureCard";
@@ -14,10 +14,13 @@ import NewsletterSection from "../closetProducts/NewsletterSection";
 
 const Collection = () => {
   const [selectedCollection, setSelectedCollection] = useState("option-one");
+  const { products: collectionProducts, isLoading } = useCollectionProducts();
 
   const handleCollectionChange = (value) => {
     setSelectedCollection(value);
   };
+
+  console.log(collectionProducts);
 
   return (
     <div className="mt-[140px] bg-white">
@@ -44,7 +47,10 @@ const Collection = () => {
                 id="option-two"
                 className="text-black border-black"
               />
-              <Label htmlFor="option-two text-geist" className="text-[48px] font-[600]">
+              <Label
+                htmlFor="option-two text-geist"
+                className="text-[48px] font-[600]"
+              >
                 New Collection
               </Label>
             </div>
@@ -54,40 +60,33 @@ const Collection = () => {
                 id="option-three"
                 className="text-black border-black"
               />
-              <Label htmlFor="option-three text-geist" className="text-[48px] font-[600]">
-                What's Hot
+              <Label
+                htmlFor="option-three text-geist"
+                className="text-[48px] font-[600]"
+              >
+                What&apos;s Hot
               </Label>
             </div>
           </RadioGroup>
         </div>
 
         {/* Conditional Rendering of Collection Cards */}
-        <div className="mt-[75px]">
-          {selectedCollection === "option-one" && (
-            <div className="grid grid-cols-3 gap-[10px]">
-              {collectionProducts.map((card, i) => (
-                <CollectionCard card={card} key={i} />
-              ))}
-            </div>
-          )}
-
-          {selectedCollection === "option-two" && (
-            <div className="grid grid-cols-3 gap-[10px] mt-[40px]">
-              {collectionProducts.slice(0, 3).map((card, i) => (
-                <CollectionCard card={card} key={i} />
-              ))}
-            </div>
-          )}
-
-          {selectedCollection === "option-three" && (
-            <div className="grid grid-cols-3 gap-[10px] mt-[40px]">
-              {collectionProducts.slice(0, 2).map((card, i) => (
-                <CollectionCard card={card} key={i} />
-              ))}
-            </div>
-          )}
-        </div>
-
+        {isLoading ? (
+          <p className="text-center mt-10 text-lg">Loading...</p>
+        ) : (
+          <div className="mt-[75px] grid grid-cols-3 gap-[10px]">
+            {Array.isArray(collectionProducts?.data) &&
+            collectionProducts.data.length > 0 ? (
+              collectionProducts.data
+                .slice(0, 6)
+                .map((product, i) => (
+                  <CollectionCard key={i} product={product} index={i} />
+                ))
+            ) : (
+              <p className="text-center text-red-500">No products available</p>
+            )}
+          </div>
+        )}
         {/* Rest of the content */}
         <div className="mt-[140px] flex">
           <div
@@ -128,18 +127,22 @@ const Collection = () => {
         <div className="bg-white">
           <div className="text-[48px] font-bold pt-12">Collection List</div>
           <div className="grid grid-cols-3 gap-[10px] mt-[40px]">
-            {collectionProducts.slice(0, 3).map((card, i) => (
+            {/* {collectionProducts.slice(0, 3).map((card, i) => (
               <CollectionCard card={card} key={i} />
-            ))}
+            ))} */}
           </div>
         </div>
 
-        <div className="text-[48px] font-bold text-center pt-16">We Supported By</div>
+        <div className="text-[48px] font-bold text-center pt-16">
+          We Supported By
+        </div>
         <div className="flex justify-center gap-4 mt-8">
           <div>
             <FeatureCard
               image={recycle}
-              description={"Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."}
+              description={
+                "Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."
+              }
               title={"24 Hour Return Policy"}
               bgColor="#E4D7CE"
             />
@@ -147,7 +150,9 @@ const Collection = () => {
           <div>
             <FeatureCard
               image={delivery}
-              description={"Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."}
+              description={
+                "Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."
+              }
               title={"Fast & Secure Delivery"}
               bgColor="#F1ECE6"
             />
@@ -155,7 +160,9 @@ const Collection = () => {
           <div>
             <FeatureCard
               image={diamond}
-              description={"Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."}
+              description={
+                "Lorem ipsum dolor sit amet consectetur. Mattis egestas nulla nibh dictumst felis commodo id aliquet."
+              }
               title={"Free Shipping on $100+"}
               bgColor="#F8DAB0"
             />
@@ -169,9 +176,9 @@ const Collection = () => {
         <div>
           <div className="text-[48px] font-bold pt-16">Best Selling Bag</div>
           <div className="grid grid-cols-3 gap-[10px] mt-[40px]">
-            {collectionProducts.slice(0, 3).map((card, i) => (
+            {/* {collectionProducts.slice(0, 3).map((card, i) => (
               <CollectionCard card={card} key={i} />
-            ))}
+            ))} */}
           </div>
         </div>
       </CommonWrapper>

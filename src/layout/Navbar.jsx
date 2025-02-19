@@ -6,7 +6,7 @@ import {
   NavbarMenu,
 } from "@heroui/react";
 
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useContext, useState } from "react";
 import { AuthContext } from "../hooks/AuthContextProvider";
 import { motion } from "framer-motion";
@@ -19,6 +19,7 @@ import { IoCartOutline } from "react-icons/io5";
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { user, logout } = useContext(AuthContext);
+  console.log(user, "user in navbar");
 
   return (
     <Navbar
@@ -140,7 +141,23 @@ export default function Header() {
 
       <NavbarContent justify="end">
         {user ? (
-          <UserPopover user={user} logout={logout} />
+          <div className="flex items-center gap-4">
+
+            <Link
+              to="/closet"
+              className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center"
+            >
+              <CiHeart className="w-[24px] h-[24px]  text-black" />
+            </Link>
+            <Link
+              to="/shopping-cart"
+              className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center"
+            >
+              <IoCartOutline className="w-[24px] h-[24px]  text-black" />
+            </Link>
+
+            <UserPopover user={user} logout={logout} />
+          </div>
         ) : (
           <div className="flex items-center gap-4">
             <div className="w-[50px] h-[50px] rounded-full bg-white flex items-center justify-center">

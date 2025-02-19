@@ -14,6 +14,7 @@ import Checkout from "../pages/Checkout";
 import Profile from "../pages/Profile";
 import ProductDetails from "../pages/ProductDetails";
 import About from "../pages/About";
+import AdminShopManage from "../pages/AdminShopManage";
 
 const routes = createBrowserRouter([
   {
@@ -47,7 +48,7 @@ const routes = createBrowserRouter([
         element: <Selling />,
       },
       {
-        path: "/product-details",
+        path: "/products/:productId",
         element: <ProductDetails />,
       },
       {
@@ -65,6 +66,10 @@ const routes = createBrowserRouter([
       {
         path: "/profile",
         element: <Profile />,
+      },
+      {
+        path: "/admin/shop",
+        element: <AdminShopManage />,
       },
     ],
   },
