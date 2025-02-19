@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import {
@@ -7,7 +7,6 @@ import {
   Button,
   Divider,
   Image,
-  Pagination,
   Radio,
   RadioGroup,
 } from "@heroui/react";
@@ -16,13 +15,19 @@ import { StarFilledIcon } from "@radix-ui/react-icons";
 import ProductLabelWithValue from "../components/product-details/ProductLabelWithValue";
 import { MinusIcon, PlusIcon, ShoppingBagIcon } from "lucide-react";
 import NewsletterSection from "../components/closetProducts/NewsletterSection";
-import AddReview from "../components/product-details/AddReview";
-
+import ReviewTab from "../components/product-details/ReviewTab";
+import { AuthContext } from "@/hooks/AuthContextProvider";
 
 const ProductDetails = () => {
-  const { productId } = useParams(); // Get productId from URL
+  const { productId } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const { user } = useContext(AuthContext);
+  const userId = user?.userId;
+
+
+
 
   useEffect(() => {
     const fetchProductDetails = async () => {
@@ -39,6 +44,8 @@ const ProductDetails = () => {
     fetchProductDetails();
   }, [productId]);
 
+  console.log(product, "fetching single product");
+
   if (loading) {
     return <p className="text-center mt-10 text-lg">Loading product details...</p>;
   }
@@ -46,7 +53,7 @@ const ProductDetails = () => {
   if (!product) {
     return <p className="text-center mt-10 text-red-500">Product not found.</p>;
   }
-  console.log("retrive products", product)
+
   return (
     <div className="bg-white">
       {/* =====Header Section======= */}
@@ -56,7 +63,7 @@ const ProductDetails = () => {
           <Breadcrumbs>
             <BreadcrumbItem>Home</BreadcrumbItem>
             <BreadcrumbItem>Shop</BreadcrumbItem>
-            <BreadcrumbItem>{product.productId.name}</BreadcrumbItem>
+            <BreadcrumbItem>{product.product.name}</BreadcrumbItem>
           </Breadcrumbs>
         </div>
       </div>
@@ -72,7 +79,7 @@ const ProductDetails = () => {
               height={700}
             />
             <div className="flex gap-2">
-              {product.images.slice(1, 5).map((img, i) => (
+              {product.images?.slice(1, 5).map((img, i) => (
                 <Image src={img} width={160} height={160} key={i} />
               ))}
             </div>
@@ -82,7 +89,7 @@ const ProductDetails = () => {
           <div>
             {/* Rating */}
             <div className="flex items-center gap-5">
-              <p className="h-8 font-semibold">{product.productId.name}</p>
+              <p className="h-8 font-semibold">{product.product.name}</p>
               <div className="flex items-center gap-3">
                 <div className="flex gap-2">
                   <StarFilledIcon color="#FF9000" />
@@ -97,10 +104,10 @@ const ProductDetails = () => {
             <Divider className="my-2 color-[#D9D9D9]" />
 
             <div className="max-w-[750px]">
-              <p className="text-[#5A5C5F]">{product.productId.description}</p>
+              <p className="text-[#5A5C5F]">{product.product.description}</p>
               <div className="mt-4">
-                <ProductLabelWithValue label="Brand" value={product.productId.brand} />
-                <ProductLabelWithValue label="Product Code" value={product.productId.productCode} />
+                <ProductLabelWithValue label="Brand" value={product.product.brand} />
+                <ProductLabelWithValue label="Product Code" value={product.product.productCode} />
                 <ProductLabelWithValue
                   label="Availability"
                   value={product.quantity > 0 ? "In stock" : "Out of stock"}
@@ -112,9 +119,9 @@ const ProductDetails = () => {
                 </RadioGroup>
               </div>
               <p className="mt-3 text-[#050505] font-semibold">
-                ${product.productId.currentPrice}{" "}
+                ${product.product.currentPrice}{" "}
                 <span className="text-sm line-through font-normal text-[#5A5C5F]">
-                  ${product.productId.previousPrice}
+                  ${product.product.previousPrice}
                 </span>
               </p>
             </div>
@@ -148,39 +155,7 @@ const ProductDetails = () => {
       </CommonWrapper>
 
       {/* =======Review======= */}
-      <CommonWrapper>
-        <div className="mt-10">
-          <p className="font-semibold">Review</p>
-          <Divider className="py-[2px] mt-5" />
-
-          <div className="pt-5 flex flex-col gap-3">
-            {Array(5).fill(null).map((_, i) => (
-              <div key={i} className="flex gap-4">
-                <Image src="/src/assets/product-details/person.png" width={100} />
-                <div>
-                  <p className="text-sm text-[#141414]">Customer Name</p>
-                  <div className="flex gap-2">
-                    <StarFilledIcon color="#FF9000" />
-                    <StarFilledIcon color="#FF9000" />
-                    <StarFilledIcon color="#FF9000" />
-                    <StarFilledIcon color="#FF9000" />
-                    <StarFilledIcon color="#FF9000" />
-                  </div>
-                  <p className="text-xs text-[#5A5C5]">
-                    Sample review text for the product.
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <div className="flex items-center justify-center mt-4">
-            <Pagination total={5} renderItem={5} page={1} showControls />
-          </div>
-        </div>
-      </CommonWrapper>
-
-      {/* Add Review */}
-      <AddReview />
+      <ReviewTab product={product} />
 
       {/* =======News Letter======= */}
       <div className="mt-10">
