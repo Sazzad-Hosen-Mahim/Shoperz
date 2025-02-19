@@ -1,13 +1,19 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Breadcrumbs, BreadcrumbItem } from "@heroui/react";
 import NewsletterSection from "../components/closetProducts/NewsletterSection";
 import { ChevronDown, ArrowLeft, ArrowRight, Menu } from "lucide-react";
 import FilterSection from "../components/side-bar/FilterSection";
+import { useNavigate } from "react-router-dom";
+import { Ellipsis } from "lucide-react";
+import Dialog from "../components/ui/Dialogue";
+import Button from "../components/ui/CustomButton";
 
 const Shop = () => {
   const [products, setProducts] = useState([]); // Store API products
   const [filteredProducts, setFilteredProducts] = useState([]); // Store filtered products
+  const [selectedProduct, setSelectedProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
   //pagination states
@@ -15,6 +21,53 @@ const Shop = () => {
   const productsPerPage = 12;
   const totalProducts = products.length; // Example: Assuming products array is populated
   const totalPages = Math.ceil(totalProducts / productsPerPage);
+
+  const navigate = useNavigate();
+
+  
+
+  const [formData, setFormData] = useState({
+    name: "",
+    color: "",
+    quantity: "",
+    colorHexCode: "",
+  })
+
+
+
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    setFormData({
+      name: product?.name || "",
+      color: product?.variantId?.[0]?.colorName || "",
+      quantity: product?.variantId?.[0]?.quantity || "",
+      colorHexCode: product?.variantId?.[0]?.colorHexCode || "",
+    });
+    setIsModalOpen(true);
+  };
+  
+  const closeModal = () => {
+    setSelectedProduct(null);
+    setIsModalOpen(false);
+  };
+
+  // const handleSubmit = (event) =>{
+  //   event.preventDefault();
+
+  //   console.log("form submitted with data", formData)
+  //   closeModal();
+  // }
+
+  const handleInputChange = (event) => {
+    const {name, value} = event.target;
+    setFormData((prevData)=>({
+       ...prevData,
+        [name]: value
+  
+    }));
+  }
+
+
 
   // Fetch Products from API
   useEffect(() => {
@@ -54,8 +107,117 @@ const Shop = () => {
     }
   };
 
+
+
+  //dialogue modals
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const ProductModal = ({ isOpen, onClose, product }) => {
+    if (!product) return null;
+
+    
+  const handleDelete = async (variantId) => {
+    try {
+      await axios.delete(
+        `https://our-bag-server.onrender.com/api/v1/products/${variantId}`
+      );
+      alert("Product variant deleted successfully!");
+      setFilteredProducts(
+        filteredProducts.filter((p) => p.variantId?.[0]?._id !== variantId)
+      );
+      closeModal();
+    } catch (error) {
+      console.error("Error deleting variant:", error);
+      alert("Failed to delete variant.");
+    }
+  };
+
+  const handleUpdate = (variantId) => {
+   
+    console.log("update",variantId);
+  };
+
+
+    return (
+      <Dialog open={isOpen} onOpenChange={onClose} handleSubmit={handleUpdate}  >
+        <Dialog.Header>
+          <Dialog.Title>Product Details</Dialog.Title>
+        </Dialog.Header>
+        <Dialog.Content>
+          <div>
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleInputChange}
+              placeholder={selectedProduct?.name}
+              className="mt-1 px-4 py-2 w-full border rounded-md"
+            />
+          </div>
+          <div>
+            <input
+              type="text"
+              name="color"
+              value={formData.color}
+              onChange={handleInputChange}
+              placeholder={selectedProduct?.variantId?.[0]?.colorName || "N/A"}
+              className="mt-1 px-4 py-2 w-full border rounded-md"
+            />
+          </div>
+          <div>
+            <input
+              type="number"
+              name="quantity"
+              value={formData.quantity}
+              onChange={handleInputChange}
+              placeholder={selectedProduct?.variantId?.[0]?.quantity || 0}
+              className="mt-1 px-4 py-2 w-full border rounded-md"
+            />
+          </div>
+          {selectedProduct?.variantId?.[0]?.colorHexCode && (
+            <div>
+              <input
+                type="text"
+                name="colorHexCode"
+                value={formData.colorHexCode}
+                onChange={handleInputChange}
+                placeholder={selectedProduct.variantId[0].colorHexCode}
+                className="mt-1 px-4 py-2 w-full border rounded-md"
+                style={{ backgroundColor: selectedProduct.variantId[0].colorHexCode }}
+              />
+            </div>
+          )}
+        </Dialog.Content>
+        <Dialog.Footer>
+          <Button
+            onClick={() => handleDelete(selectedProduct?.variantId?.[0]?._id)}
+            variant="destructive"
+            type="button"
+          >
+            Delete
+          </Button>
+          <Button
+            onClick={() => handleUpdate(selectedProduct?.variantId?.[0]?._id)}
+            variant="outline"
+            type="button"
+          >
+            Update Variant
+          </Button>
+        </Dialog.Footer>
+      </Dialog>
+    );
+  };
+
+  
+
   return (
     <div className="w-full bg-white">
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        product={selectedProduct}
+      />
       {/* Header Section */}
       <div className="bg-gradient-to-r from-[#F1FBFF] via-[#F1EDEB] to-[#F8DAB0] h-[437px] flex flex-col items-center justify-center">
         <h1 className="text-[72px] font-bold text-center">Shop</h1>
@@ -105,7 +267,12 @@ const Shop = () => {
                     />
 
                     {/* View Details Button (Hidden by Default) */}
-                    <button className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-sm font-semibold px-4 py-2 rounded-md opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                    <button
+                      className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 text-white text-sm font-semibold px-4 py-2 rounded-md opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      onClick={() =>
+                        navigate(`/products/${product.variantId?.[0]?._id}`)
+                      }
+                    >
                       View Details
                     </button>
                   </div>
@@ -128,6 +295,12 @@ const Shop = () => {
                       ></span>
                     </div>
                   )}
+                  {/* Product handle */}
+                  <div className="flex justify-end">
+                    <button onClick={() => openModal(product)}>
+                      <Ellipsis />
+                    </button>
+                  </div>
                 </div>
               ))
             )}
