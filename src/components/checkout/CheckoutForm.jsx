@@ -15,6 +15,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
+
 const CheckoutForm = () => {
   const stripe = useStripe();
   const elements = useElements();
@@ -32,16 +33,10 @@ const CheckoutForm = () => {
   });
 
   const [processing, setProcessing] = useState(false);
-  // eslint-disable-next-line no-unused-vars
   const [error, setError] = useState(null);
-
   const [paymentData, setPaymentData] = useState({
-    cardNumber: "",
-    expirationDate: "",
-    securityCode: "",
     cardholderName: "",
   });
-
   const [paymentMethod, setPaymentMethod] = useState("SSL");
 
   const handleChange = (e) => {
@@ -51,32 +46,41 @@ const CheckoutForm = () => {
       [name]: value,
     }));
   };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!stripe || !elements) return;
+
     setProcessing(true);
     setError(null);
 
-    console.log("data", formData);
-
     const cardNumberElement = elements.getElement(CardNumberElement);
 
-    const { error, paymentMethod } = await stripe.createPaymentMethod({
-      type: "card",
-      card: cardNumberElement, //only card number is required for payment method
-      billing_details: {
-        name: formData.firstName + " " + formData.lastName,
-        email: formData.email,
-        phone: formData.phone,
-        address: { line1: formData.address },
-      },
-    });
-    if (error) {
-      setError(error.message);
-      setProcessing(false);
-      return;
+    // If SSL is selected, create payment method via Stripe
+    let paymentMethodId;
+    if (paymentMethod === "SSL") {
+      const { error, paymentMethod } = await stripe.createPaymentMethod({
+        type: "card",
+        card: cardNumberElement,
+        billing_details: {
+          name: formData.firstName + " " + formData.lastName,
+          email: formData.email,
+          phone: formData.phoneNumber,
+          address: { line1: formData.address },
+        },
+      });
+
+      if (error) {
+        setError(error.message);
+        setProcessing(false);
+        return;
+      }
+      paymentMethodId = paymentMethod.id;
+    } else {
+      // If On-Arrival is selected, no card details are needed
+      paymentMethodId = "On-Arrival"; // Just mark the payment method as On-Arrival
     }
-    //modify with actual api
+
     const response = await fetch(
       "https://our-bag-server.onrender.com/api/v1/user/makeAnOrder",
       {
@@ -86,7 +90,7 @@ const CheckoutForm = () => {
           Authorization: `${Cookies.get("user")}`,
         },
         body: JSON.stringify({
-          paymentMethodId: paymentMethod.id,
+          paymentMethodId: paymentMethodId,
           ...formData,
         }),
       }
@@ -96,18 +100,10 @@ const CheckoutForm = () => {
     setProcessing(false);
 
     if (data.success) {
-      toast("Payment Done"); //modify
+      toast("Payment Done");
     } else {
-      toast("payment failed"); //modify
+      toast("Payment Failed");
     }
-  };
-
-  const handleFormChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
   };
 
   const handlePaymentChange = (e) => {
@@ -150,7 +146,7 @@ const CheckoutForm = () => {
         <div className="flex justify-between p-8 mt-14">
           {/* Left side - User Information Form */}
           <form onSubmit={handleSubmit}>
-            <div className="w-[60%] space-y-4">
+            <div className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div className="flex flex-col">
                   <label className="font-medium pb-4">First Name *</label>
@@ -230,7 +226,7 @@ const CheckoutForm = () => {
                   <select
                     name="country"
                     value={formData.country}
-                    onChange={handleFormChange}
+                    onChange={handlePaymentChange}
                     className="border border-gray-300 p-2 rounded-xl text-[#5A5C5F]"
                     required
                   >
@@ -296,7 +292,6 @@ const CheckoutForm = () => {
           </form>
 
           {/* Right side - Order Summary and Payment */}
-
           <div className="w-[35%] h-[872px] bg-white p-6 rounded-lg shadow-md border-1 border-[#D9D9D9]">
             <h2 className="text-xl font-bold mb-4 text-center pt-2">
               Order Summary
@@ -381,17 +376,7 @@ const CheckoutForm = () => {
                   </div>
                 </div>
               )}
-              {/* {paymentMethod === "On-Arrival" && (
-                <div className="mt-4">
-                  <button
-                    type="submit"
-                    disabled={processing || !stripe}
-                    className="bg-black text-white py-2 px-4 rounded-full w-full"
-                  >
-                    Confirm On-Arrival Payment
-                  </button>
-                </div>
-              )} */}
+              {/* Submit Button */}
               <button
                 onClick={handleSubmit}
                 disabled={processing || !stripe}
